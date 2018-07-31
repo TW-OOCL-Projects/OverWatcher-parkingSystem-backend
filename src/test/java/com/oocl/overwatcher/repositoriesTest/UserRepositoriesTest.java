@@ -1,7 +1,7 @@
 package com.oocl.overwatcher.repositoriesTest;
 
 import com.oocl.overwatcher.entities.User;
-import com.oocl.overwatcher.repositories.UserRepositories;
+import com.oocl.overwatcher.repositories.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @DataJpaTest
 public class UserRepositoriesTest {
     @Autowired
-    private UserRepositories userRepositories;
+    private UserRepository userRepositories;
     @Autowired
     private TestEntityManager testEntityManager;
 
@@ -33,10 +33,9 @@ public class UserRepositoriesTest {
         List<User> companiesList = userRepositories.findAll();
 
         //then
-        assertThat(companiesList.size(), is(2));
-        assertThat(companiesList.get(0).getId(), is(1L));
-        assertThat(companiesList.get(0).getUserName(), is("bale"));
-        assertThat(companiesList.get(0).getPassword(), is("112233"));
+        assertThat(companiesList.get(1).getId(), is(2L));
+        assertThat(companiesList.get(1).getUserName(), is("bale"));
+        assertThat(companiesList.get(1).getPassword(), is("112233"));
 
     }
 }

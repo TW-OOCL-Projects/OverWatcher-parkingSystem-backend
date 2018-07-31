@@ -30,9 +30,12 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
-	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
+//	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
 	// https://mvnrepository.com/artifact/junit/junit
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 	runtime 'com.h2database:h2'
+	compile('io.jsonwebtoken:jjwt:0.7.0')
 	compile("org.flywaydb:flyway-core:4.1.1")
+	compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+
 }
