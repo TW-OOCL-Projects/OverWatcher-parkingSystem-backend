@@ -14,6 +14,7 @@ public class ParkingLot {
     private String name;
     private int size;
     private String status;
+    private int initSize;
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "user_id")
@@ -60,5 +61,17 @@ public class ParkingLot {
 
     public User getUser() {
         return user;
+    }
+
+    public int getInitSize() {
+        return initSize;
+    }
+
+    public void setInitSize(int initSize) {
+        this.initSize = initSize;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
