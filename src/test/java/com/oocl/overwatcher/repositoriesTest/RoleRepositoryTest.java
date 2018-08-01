@@ -26,17 +26,6 @@ public class RoleRepositoryTest {
     @Test
     public void findAll(){
         //given
-        List<Authority> authorities=new ArrayList<>();
-        authorities.add(new Authority("yggl"));
-        authorities.add(new Authority("tccgl"));
-
-        testEntityManager.persist(new Role("manger",authorities));
-        //when
-        List<Role> roleList = roleRepository.findAll();
-        assertThat(roleList.get(0).getName(), is("manger"));
-        assertThat(roleList.get(0).getAuthorityList().size(), is(2));
-        assertThat(roleList.get(0).getAuthorityList().get(0).getComment(), equalTo("yggl"));
-        assertThat(roleList.get(0).getAuthorityList().get(1).getComment(), equalTo("tccgl"));
 
     }
 

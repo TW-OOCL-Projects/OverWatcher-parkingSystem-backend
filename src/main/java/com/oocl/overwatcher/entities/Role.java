@@ -10,18 +10,13 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Authority> authorityList = new ArrayList<>();
+
+
     public Role() {
     }
 
     public Role(String name) {
         this.name = name;
-    }
-
-    public Role( String name,List<Authority> authorityList) {
-        this(name);
-        this.authorityList=authorityList;
     }
 
     public Role(Long id, String name) {
@@ -45,11 +40,5 @@ public class Role {
         this.name = name;
     }
 
-    public List<Authority> getAuthorityList() {
-        return authorityList;
-    }
 
-    public void setAuthorityList(List<Authority> authorityList) {
-        this.authorityList = authorityList;
-    }
 }
