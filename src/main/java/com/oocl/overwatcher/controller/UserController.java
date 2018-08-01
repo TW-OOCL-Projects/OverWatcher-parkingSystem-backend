@@ -41,5 +41,15 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
+    @GetMapping("/employees/{id}")
+    @PreAuthorize("hasAnyAuthority('admin')")
+    public ResponseEntity<EmployeeDto> findOne(@PathVariable("id") Long id) {
+        try {
+            User user = userService.findOne(id).orElseThrow(() -> new Exception("找不到该用户"));
+            return ResponseEntity.ok(new EmployeeDto(user));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }
