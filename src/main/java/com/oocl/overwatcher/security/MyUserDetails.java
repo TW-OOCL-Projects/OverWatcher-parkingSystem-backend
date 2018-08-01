@@ -1,6 +1,9 @@
 package com.oocl.overwatcher.security;
 
+import com.oocl.overwatcher.entities.Authority;
+import com.oocl.overwatcher.entities.Role;
 import com.oocl.overwatcher.entities.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by linyuan on 2017/12/9.
+ * @author LIULE9
  */
 public class MyUserDetails implements UserDetails {
 
@@ -23,13 +26,12 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String roles = user.getRole();
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        if (roles!=null){
-            authorities.add(new SimpleGrantedAuthority(roles));
-
-            return authorities;
+        Role role = user.getRole();
+        if (role != null && StringUtils.isNotBlank(role.getName())) {
+            List<Authority> authorities = role.getAuthorityList();
+            if (authorities.size() > 0) {
+                return authorities;
+            }
         }
         return AuthorityUtils.commaSeparatedStringToAuthorityList("");
     }
