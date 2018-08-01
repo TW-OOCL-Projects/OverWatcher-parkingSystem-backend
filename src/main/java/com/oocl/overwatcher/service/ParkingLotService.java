@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author LIULE9
@@ -31,5 +32,9 @@ public class ParkingLotService {
 
     public void updateStatus(ParkingLot parkingLot) {
         parkingLotRepository.updateStatusById(parkingLot.getId(),parkingLot.getStatus());
+    }
+
+    public Optional<ParkingLot> findOne(Long id) {
+        return parkingLotRepository.findById(id);
     }
 }
