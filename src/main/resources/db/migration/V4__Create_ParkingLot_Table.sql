@@ -3,6 +3,7 @@ CREATE TABLE `Parking_Lot` (
   `name`         VARCHAR(20),
   `size` int,
   `status` VARCHAR(20),
+  `initSize` int,
   `user_id` BIGINT
 );
 insert into Parking_Lot values (1,'South Parking Lot',10,'open',1);
