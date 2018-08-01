@@ -11,9 +11,9 @@ public class Orders {
     int id;
 
     @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
-
+    private User user;
     private String type;
     private String status;
     private String carId;
@@ -26,6 +26,8 @@ public class Orders {
         this.status=status;
         this.carId=carId;
     }
+
+
 
     public int getId() {
         return id;
@@ -57,5 +59,13 @@ public class Orders {
 
     public void setCarId(String carId) {
         this.carId = carId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
