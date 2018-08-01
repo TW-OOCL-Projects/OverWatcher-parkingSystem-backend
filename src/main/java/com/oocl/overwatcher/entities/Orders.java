@@ -6,6 +6,13 @@ import javax.persistence.*;
 
 @Entity
 public class Orders {
+    public static String TYPE__UNPARK="park";
+    public static String TYPE__PARK="unpark";
+    public static String STATUS_YES="yes";
+    public static String STATUS_NO="no";
+    public static String LEAVE="leave";
+    public static String NOT_LEAVE="not leave";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -17,14 +24,16 @@ public class Orders {
     private String type;
     private String status;
     private String carId;
+    private String leave;
 
     public Orders() {
     }
 
-    public Orders(String type, String status, String carId) {
+    public Orders(String type, String status, String carId,String leave) {
         this.type=type;
         this.status=status;
         this.carId=carId;
+        this.leave=leave;
     }
 
 
