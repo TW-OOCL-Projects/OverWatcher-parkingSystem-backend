@@ -1,5 +1,7 @@
 package com.oocl.overwatcher.entities;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +13,8 @@ public class User {
     private String userName;
     private String password;
     private String status;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
     private Role role;
     private String email;
     private String phone;
