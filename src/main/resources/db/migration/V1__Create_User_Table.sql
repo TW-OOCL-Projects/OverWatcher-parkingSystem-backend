@@ -10,3 +10,7 @@ CREATE TABLE `User` (
 
 -- username=wer password=war
 INSERT INTO `User` VALUES (1, '小明','wer', '$2a$10$EgmhRAlC5iw.KeENZ5.RYebSEHTcO8yl9lOf/r36GoyGb4uNOOhr2','alive','544097676@qq.com','1213545');
+INSERT INTO `User` VALUES (2, '小红','wer', '$2a$10$EgmhRAlC5iw.KeENZ5.RYebSEHTcO8yl9lOf/r36GoyGb4uNOOhr2','alive','544097676@qq.com','1213545');
+INSERT INTO `User` VALUES (3, '小刚','wer', '$2a$10$EgmhRAlC5iw.KeENZ5.RYebSEHTcO8yl9lOf/r36GoyGb4uNOOhr2','alive','544097676@qq.com','1213545');
+INSERT INTO `User` VALUES (4, '小亮','wer', '$2a$10$EgmhRAlC5iw.KeENZ5.RYebSEHTcO8yl9lOf/r36GoyGb4uNOOhr2','alive','544097676@qq.com','1213545');
+INSERT INTO `User` VALUES (5, '小新','wer', '$2a$10$EgmhRAlC5iw.KeENZ5.RYebSEHTcO8yl9lOf/r36GoyGb4uNOOhr2','alive','544097676@qq.com','1213545');
