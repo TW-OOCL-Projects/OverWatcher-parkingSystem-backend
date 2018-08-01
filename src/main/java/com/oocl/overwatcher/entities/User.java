@@ -16,9 +16,8 @@ public class User {
     private String userName;
     private String password;
     private String status;
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = Role.class)
+    private List<Role> roleList;
     private String email;
     private String phone;
     @OneToMany(fetch = FetchType.LAZY)
@@ -28,17 +27,13 @@ public class User {
         this.password = password;
     }
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "user")
     private List<Orders> ordersList = new ArrayList<>();
     public User() {
     }
 
-    public User(String name, String status, Role role, String email, String phone) {
+    public User(String name) {
         this.name = name;
-        this.status = status;
-        this.role = role;
-        this.email = email;
-        this.phone = phone;
     }
 
     public Long getId() {
@@ -81,12 +76,12 @@ public class User {
         this.status = status;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     public String getEmail() {

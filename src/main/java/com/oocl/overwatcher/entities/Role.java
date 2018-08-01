@@ -11,7 +11,13 @@ public class Role {
     private Long id;
     private String name;
 
-
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL)
+    private List<User> user;
     public Role() {
     }
 
