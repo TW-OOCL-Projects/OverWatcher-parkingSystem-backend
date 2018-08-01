@@ -16,7 +16,7 @@ public class User {
     private String userName;
     private String password;
     private String status;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
     private String email;
@@ -31,6 +31,14 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
     private List<Orders> ordersList = new ArrayList<>();
     public User() {
+    }
+
+    public User(String name, String status, Role role, String email, String phone) {
+        this.name = name;
+        this.status = status;
+        this.role = role;
+        this.email = email;
+        this.phone = phone;
     }
 
     public Long getId() {

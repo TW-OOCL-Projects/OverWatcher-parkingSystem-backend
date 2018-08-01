@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -15,6 +16,9 @@ public class Authority implements GrantedAuthority {
     @Ignore
     @ManyToOne
     private Role role;
+
+    public Authority() {
+    }
 
     public Authority(Long id, String comment, Role role) {
         this.id=id;
