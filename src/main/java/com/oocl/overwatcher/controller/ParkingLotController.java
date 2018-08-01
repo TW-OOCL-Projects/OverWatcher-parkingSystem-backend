@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.oocl.overwatcher.service.*;
 
@@ -22,11 +23,13 @@ public class ParkingLotController {
     private ParkingLotService parkingLotService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<List<ParkingLot>> findAll() {
         return ResponseEntity.ok(parkingLotService.findAll());
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<Void> addParkingLot(@NotNull @RequestBody ParkingLot parkingLot) {
         try {
             parkingLotService.save(parkingLot);
@@ -38,6 +41,7 @@ public class ParkingLotController {
     }
 
     @PutMapping("/status")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<Void> updateParkingLotStatus(@RequestBody ParkingLot parkingLot) {
         if (StringUtils.isNotBlank(parkingLot.getStatus()) && StringUtils.isNotBlank(parkingLot.getId() + "")) {
             parkingLotService.updateStatus(parkingLot);
