@@ -28,8 +28,8 @@ public class ParkingLotRepositoriesTest {
       testEntityManager.persist(new ParkingLot("东南",20));
         //when
         List<ParkingLot> parkingLotList = parkingLotRepository.findAll();
-        assertThat(parkingLotList.size(),equalTo(1));
-        assertThat(parkingLotList.get(0).getName(),equalTo("东南"));
-        assertThat(parkingLotList.get(0).getSize(),equalTo(20));
+        assertThat(parkingLotList.size(),equalTo(5));
+     assertThat(parkingLotList.get(4).getName(),equalTo("东南"));
+       assertThat(parkingLotList.get(4).getSize(),equalTo(20));
     }
 }
