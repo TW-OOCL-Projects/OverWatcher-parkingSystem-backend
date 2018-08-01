@@ -1,5 +1,7 @@
 package com.oocl.overwatcher.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class Role {
             inverseJoinColumns =
             @JoinColumn(name="user_id",referencedColumnName="id"))
     @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<User> users;
     public Role() {
     }
