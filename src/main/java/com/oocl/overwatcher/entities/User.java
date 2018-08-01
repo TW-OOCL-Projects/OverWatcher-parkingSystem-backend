@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -26,7 +27,9 @@ public class User {
         this.userName = userName;
         this.password = password;
     }
-
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    private List<Orders> ordersList = new ArrayList<>();
     public User() {
     }
 
@@ -92,5 +95,21 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
+    public List<ParkingLot> getParkingLotList() {
+        return parkingLotList;
+    }
+
+    public void setParkingLotList(List<ParkingLot> parkingLotList) {
+        this.parkingLotList = parkingLotList;
     }
 }
