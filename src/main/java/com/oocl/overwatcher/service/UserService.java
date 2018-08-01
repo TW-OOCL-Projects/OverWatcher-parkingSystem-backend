@@ -16,10 +16,15 @@ public class UserService {
     public List<User> findAllUser(){
         return userRepository.findAll();
     }
-    public void addUser(User user){
-        userRepository.save(user);
+    public User findUserById(Long id){
+        return userRepository.findById(id).get();
     }
-    public void updateStatus(User user) {
-        userRepository.updateStatusById(user.getId(),user.getStatus());
+    public boolean  addUser(User user){
+        User saveUser = userRepository.save(user);
+        return saveUser!=null;
+    }
+    public boolean updateStatus(User user) {
+        int updateNum = userRepository.updateStatusById(user.getId(),user.getStatus());
+        return updateNum!=0;
     }
 }

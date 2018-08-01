@@ -6,7 +6,7 @@ CREATE TABLE `Parking_Lot` (
   `init_size` int,
   `user_id` BIGINT
 );
-insert into Parking_Lot values (1,'South Parking Lot',10,'open','20',1);
-insert into Parking_Lot values (2,'North Parking Lot',23,'open','20',3);
-insert into Parking_Lot values (3,'East Parking Lot',15,'open','20',1);
-insert into Parking_Lot values (4,'West Parking Lot',9,'open','20',3);
+insert into Parking_Lot values (1,'South Parking Lot',10,'open',20,1);
+insert into Parking_Lot values (2,'North Parking Lot',23,'open',20,1);
+insert into Parking_Lot values (3,'East Parking Lot',15,'open',20,1);
+insert into Parking_Lot values (4,'West Parking Lot',9,'open',20,1);

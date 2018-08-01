@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUserName(String name);
     @Query(value = "update User set `status` = ?2 where id = ?1", nativeQuery = true)
     @Modifying
-    void updateStatusById( Long id, String status);
+    int updateStatusById( Long id, String status);
 }
