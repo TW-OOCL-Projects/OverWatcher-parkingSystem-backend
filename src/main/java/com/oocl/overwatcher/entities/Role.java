@@ -13,11 +13,12 @@ public class Role {
 
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+            joinColumns =
+            @JoinColumn(name="role_id", referencedColumnName="id"),
+            inverseJoinColumns =
+            @JoinColumn(name="user_id",referencedColumnName="id"))
     @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL)
-    private List<User> user;
+    private List<User> users;
     public Role() {
     }
 
@@ -46,5 +47,11 @@ public class Role {
         this.name = name;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

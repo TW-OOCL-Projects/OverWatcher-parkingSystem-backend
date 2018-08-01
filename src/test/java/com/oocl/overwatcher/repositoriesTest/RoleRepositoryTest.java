@@ -25,7 +25,8 @@ public class RoleRepositoryTest {
     private TestEntityManager testEntityManager;
     @Test
     public void findAll(){
-        //given
+        List<Role> roleList = roleRepository.findAll();
+        assertThat(roleList.size(),is(3));
 
     }
 

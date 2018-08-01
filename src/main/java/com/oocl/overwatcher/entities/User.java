@@ -16,7 +16,7 @@ public class User {
     private String userName;
     private String password;
     private String status;
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = Role.class)
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "users",fetch = FetchType.LAZY,targetEntity = Role.class)
     private List<Role> roleList;
     private String email;
     private String phone;
@@ -34,6 +34,11 @@ public class User {
 
     public User(String name) {
         this.name = name;
+    }
+
+    public User(String name, List<Role> roleList) {
+        this.name = name;
+        this.roleList = roleList;
     }
 
     public Long getId() {
