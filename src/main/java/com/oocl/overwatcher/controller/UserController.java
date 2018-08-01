@@ -26,20 +26,18 @@ public class UserController {
 
     @PostMapping("/employees")
     public ResponseEntity addUser(@RequestBody User user){
-        try{
-            userService.addUser(user);
+        if (userService.addUser(user)){
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch (Exception e){
-            e.printStackTrace();
         }
-        return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PutMapping("/employees/status")
     public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
-            userService.updateStatus(user);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            if(userService.updateStatus(user)){
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
