@@ -3,5 +3,6 @@ CREATE TABLE `orders` (
   `uesr_id`        INT,
   `type`           VARCHAR(20)  NOT NULL,
   `stauts`         VARCHAR(20)  NOT NULL,
-  `carid`          VARCHAR(20)  NOT NULL
+  `car_id`          VARCHAR(20)  NOT NULL
+
  );
