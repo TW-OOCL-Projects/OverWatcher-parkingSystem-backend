@@ -1,12 +1,29 @@
 package com.oocl.overwatcher.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.annotation.Generated;
+import javax.persistence.*;
+
+@Entity
+
 public class ParkingLot {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int size;
     private String status;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private User user;
     public ParkingLot() {
+    }
+
+    public ParkingLot(String name, int size) {
+        this.name = name;
+        this.size = size;
     }
 
     public Long getId() {
@@ -39,5 +56,9 @@ public class ParkingLot {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
