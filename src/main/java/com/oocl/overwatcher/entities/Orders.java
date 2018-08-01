@@ -1,8 +1,10 @@
 package com.oocl.overwatcher.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 
 @Entity
 public class Orders {
@@ -26,6 +28,14 @@ public class Orders {
     private String carId;
     private String leave;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="parkinglot_id")
+    private ParkingLot parkingLot;
+
+    @CreatedDate
+    private ZonedDateTime createdDate = ZonedDateTime.now();
+
     public Orders() {
     }
 
@@ -34,6 +44,22 @@ public class Orders {
         this.status=status;
         this.carId=carId;
         this.leave=leave;
+    }
+
+    public ParkingLot getParkingLot() {
+        return parkingLot;
+    }
+
+    public void setParkingLot(ParkingLot parkingLot) {
+        this.parkingLot = parkingLot;
+    }
+
+    public ZonedDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(ZonedDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getLeave() {

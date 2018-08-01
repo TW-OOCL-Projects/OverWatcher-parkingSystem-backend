@@ -2,8 +2,9 @@ package com.oocl.overwatcher.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 
@@ -21,6 +22,10 @@ public class ParkingLot {
     private User user;
     public ParkingLot() {
     }
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    private List<Orders> ordersList = new ArrayList<>();
 
     public ParkingLot(String name, int size) {
         this.name = name;

@@ -2,6 +2,7 @@ package com.oocl.overwatcher.repositoriesTest;
 
 import com.oocl.overwatcher.entities.Orders;
 import com.oocl.overwatcher.repositories.OrdersRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,10 +18,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @DataJpaTest
 public class OrdersRepositoryTest {
 
-        @Autowired
-        private OrdersRepository ordersRepository;
-        @Autowired
-        private TestEntityManager testEntityManager;
+    @Autowired
+    private OrdersRepository ordersRepository;
+
+    @Autowired
+    private TestEntityManager testEntityManager;
+
+    @After
+    public void tearDown() throws Exception {
+        testEntityManager.clear();
+    }
 
         @Test
         public void findAll() {
@@ -44,7 +50,8 @@ public class OrdersRepositoryTest {
         //given
 
         //when
-        ordersRepository.save(new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001",Orders.NOT_LEAVE));
+        Orders orders=new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001",Orders.NOT_LEAVE);
+        ordersRepository.save(orders);
         List<Orders> ordersList = ordersRepository.findAll();
 
         //then
@@ -60,11 +67,11 @@ public class OrdersRepositoryTest {
         //when
         ordersRepository.save(new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001",Orders.NOT_LEAVE));
         ordersRepository.save(new Orders(Orders.TYPE__UNPARK,Orders.STATUS_NO,"A002",Orders.NOT_LEAVE));
-        Optional<Orders> orders = ordersRepository.findById(1);
+        Orders orders = ordersRepository.findBycarId("A001");
 
         //then
-        assertThat(orders.get().getStatus(), is(Orders.STATUS_YES));
-        assertThat(orders.get().getType(), is(Orders.TYPE__PARK));
+        assertThat(orders.getStatus(), is(Orders.STATUS_YES));
+        assertThat(orders.getType(), is(Orders.TYPE__PARK));
     }
     }
 
