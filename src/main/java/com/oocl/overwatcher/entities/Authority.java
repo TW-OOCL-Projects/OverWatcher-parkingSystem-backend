@@ -16,6 +16,10 @@ public class Authority implements GrantedAuthority {
     @ManyToOne
     private Role role;
 
+    public Authority(Long id,String comment){
+        this(id,comment,null);
+    }
+
     public Authority(Long id, String comment, Role role) {
         this.id=id;
         this.comment=comment;
@@ -24,6 +28,11 @@ public class Authority implements GrantedAuthority {
 
     public Authority(String comment) {
         this.comment=comment;
+    }
+
+    public Authority(String comment, Role role) {
+        this.comment=comment;
+        this.role=role;
     }
 
     @Override
