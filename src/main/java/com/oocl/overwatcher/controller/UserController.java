@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,9 @@ public class UserController {
 
     @PostMapping("/employees")
     public ResponseEntity addUser(@RequestBody User user){
+        user.getRoleList().forEach(role -> {
+            role.getUsers().add(user);
+        });
         if (userService.addUser(user)){
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -52,4 +56,16 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+
+    @PutMapping("/employees")
+    public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user){
+        if ( StringUtils.isNotBlank(user.getId() + "")) {
+            if (userService.updateBasicMessageOfEmployees(user)) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
 }

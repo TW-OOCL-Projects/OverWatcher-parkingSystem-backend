@@ -31,4 +31,9 @@ public class UserService {
     public Optional<User> findOne(Long id) {
         return userRepository.findById(id);
     }
+
+    public boolean updateBasicMessageOfEmployees(User user){
+        int updateNum = userRepository.updateBasicMessageOfEmployees(user.getId(),user.getName(),user.getStatus(),user.getEmail(),user.getPhone());
+        return updateNum!=0;
+    }
 }
