@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //配置请求访问策略
         http
                 //关闭CSRF、CORS
-                .cors().disable()
+                .cors().and()
                 .csrf().disable()
                 //由于使用Token，所以不需要Session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //验证Http请求
                 .authorizeRequests()
                 //允许所有用户访问首页 与 登录
-                .antMatchers("/", "/auth/login").permitAll()
+                .antMatchers("/", "/auth/login","/employees").permitAll()
                 .antMatchers("/parkingLots").permitAll()
                 .antMatchers("/orders").permitAll()
                 .antMatchers("/employees").permitAll()

@@ -28,6 +28,7 @@ public class CrosFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization,Content-Type");
         response.setHeader("Access-Control-Allow-Credentials", "true");
+        System.out.println("=====================================================");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

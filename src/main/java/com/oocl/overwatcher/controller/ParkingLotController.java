@@ -27,14 +27,14 @@ public class ParkingLotController {
     private ParkingLotService parkingLotService;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('admin')")
+//    @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<List<ParkingLot>> findAll() {
         return ResponseEntity.ok(parkingLotService.findAll());
     }
 
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('admin')")
+//    @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<Void> addParkingLot(@NotNull @RequestBody ParkingLot parkingLot) {
         try {
             parkingLotService.save(parkingLot);
