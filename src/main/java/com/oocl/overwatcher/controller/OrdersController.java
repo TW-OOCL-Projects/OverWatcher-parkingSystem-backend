@@ -44,7 +44,7 @@ public class OrdersController {
         return ordersService.addOrders(orders);
     }
 
-    @PutMapping("/{OrderId}/{BoyId}")
+    @PutMapping("/{OrderId}/{BoyId}/{ParkingLotId}")
     public Orders setOrdersToUsers(@PathVariable int OrderId,@PathVariable Long BoyId){
         Orders orders=ordersService.findById(OrderId).get();
         orders.setUser(userRepository.findById(BoyId).get());

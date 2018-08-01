@@ -36,7 +36,13 @@ public class Orders {
         this.leave=leave;
     }
 
+    public String getLeave() {
+        return leave;
+    }
 
+    public void setLeave(String leave) {
+        this.leave = leave;
+    }
 
     public int getId() {
         return id;
