@@ -8,6 +8,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author LIULE9
+ */
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
@@ -17,8 +20,10 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = (String) authentication.getPrincipal();     //获取用户输入的用户名
-        String password = (String) authentication.getCredentials(); //获取用户输入的密码
+        //获取用户输入的用户名
+        String username = (String) authentication.getPrincipal();
+        //获取用户输入的密码
+        String password = (String) authentication.getCredentials();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails.getPassword().equals(password)) {
             return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

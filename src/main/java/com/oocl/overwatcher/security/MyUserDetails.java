@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author LIULE9
+ */
 public class MyUserDetails implements UserDetails {
 
     private User user;
