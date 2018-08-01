@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -35,5 +36,20 @@ public class UserServiceTest {
         assertThat(result.size(), is(2));
         assertThat(result.get(0).getName(), is("Jason"));
         assertThat(result.get(1).getName(), is("java"));
+    }
+
+    @Test
+    public void should_add_a_new_employee(){
+        UserRepository repository=mock(UserRepository.class);
+        UserService service=new UserService(repository);
+        User given=new User("Jason","123456");
+        when(repository.save(given)).thenReturn(given);
+        //when
+        User result= service.saveNewUser(given);
+
+        //then
+        assertThat(result.getName(), equalTo("Jason"));
+        assertThat(result.getPassword(), equalTo("123456"));
+
     }
 }

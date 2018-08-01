@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/auth/login").permitAll()
                 .antMatchers("/parkingLots").permitAll()
                 .antMatchers("/orders").permitAll()
-                .antMatchers("/users").permitAll()
+                .antMatchers("/employees").permitAll()
                 //其它任何请求都要经过认证通过
                 .anyRequest().authenticated()
                 //用户页面需要用户权限
