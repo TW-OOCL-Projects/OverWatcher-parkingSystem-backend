@@ -21,7 +21,7 @@ public class Role {
             @JoinColumn(name="user_id",referencedColumnName="id"))
     @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     public Role() {
     }
 

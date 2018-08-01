@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,6 +31,14 @@ public class UserService {
     }
     public boolean updateStatus(User user) {
         int updateNum = userRepository.updateStatusById(user.getId(),user.getStatus());
+        return updateNum!=0;
+    }
+    public Optional<User> findOne(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public boolean updateBasicMessageOfEmployees(User user){
+        int updateNum = userRepository.updateBasicMessageOfEmployees(user.getId(),user.getName(),user.getStatus(),user.getEmail(),user.getPhone());
         return updateNum!=0;
     }
 }

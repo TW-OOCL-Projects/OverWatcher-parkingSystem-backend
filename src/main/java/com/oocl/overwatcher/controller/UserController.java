@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,9 @@ public class UserController {
 
     @PostMapping("/employees")
     public ResponseEntity addUser(@RequestBody User user){
+        user.getRoleList().forEach(role -> {
+            role.getUsers().add(user);
+        });
         if (userService.addUser(user)){
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -36,6 +40,28 @@ public class UserController {
     public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
             if(userService.updateStatus(user)){
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    @GetMapping("/employees/{id}")
+    @PreAuthorize("hasAnyAuthority('admin')")
+    public ResponseEntity<EmployeeDto> findOne(@PathVariable("id") Long id) {
+        try {
+            User user = userService.findOne(id).orElseThrow(() -> new Exception("找不到该用户"));
+            return ResponseEntity.ok(new EmployeeDto(user));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+
+    @PutMapping("/employees")
+    public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user){
+        if ( StringUtils.isNotBlank(user.getId() + "")) {
+            if (userService.updateBasicMessageOfEmployees(user)) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
