@@ -17,6 +17,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -45,11 +46,22 @@ public class UserServiceTest {
         User given=new User("Jason","123456");
         when(repository.save(given)).thenReturn(given);
         //when
-        User result= service.saveNewUser(given);
+        boolean result= service.addUser(given);
 
         //then
-        assertThat(result.getName(), equalTo("Jason"));
-        assertThat(result.getPassword(), equalTo("123456"));
+        assertThat(result, equalTo(true));
 
+    }
+
+    @Test
+    public void should_update_a_employee_status_with_the_given_data(){
+        UserRepository repository=mock(UserRepository.class);
+        UserService service=new UserService(repository);
+        User given=new User(1L,"Jason","123456");
+        when(repository.updateStatusById(1L,given.getStatus())).thenReturn(1);
+        //when
+        boolean result= service.updateStatus(given);
+
+        assertThat(result, equalTo(true));
     }
 }

@@ -13,6 +13,11 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    public UserService(UserRepository repository) {
+        this.userRepository=repository;
+    }
+
     public List<User> findAllUser(){
         return userRepository.findAll();
     }
