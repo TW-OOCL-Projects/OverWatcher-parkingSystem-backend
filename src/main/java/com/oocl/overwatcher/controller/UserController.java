@@ -19,9 +19,9 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/employees")
-    public List<EmployeeDto> findAllUser(){
+    public ResponseEntity<List<EmployeeDto>> findAllUser(){
         List<EmployeeDto> employeeDtos=userService.findAllUser().stream().map(user -> new EmployeeDto(user)).collect(Collectors.toList());
-        return employeeDtos;
+        return ResponseEntity.ok(employeeDtos);
     }
 
     @PostMapping("/employees")
@@ -43,4 +43,5 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
 }
