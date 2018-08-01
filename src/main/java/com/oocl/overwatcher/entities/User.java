@@ -3,6 +3,8 @@ package com.oocl.overwatcher.entities;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -18,7 +20,8 @@ public class User {
     private Role role;
     private String email;
     private String phone;
-
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<ParkingLot> parkingLotList = new ArrayList<>();
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
