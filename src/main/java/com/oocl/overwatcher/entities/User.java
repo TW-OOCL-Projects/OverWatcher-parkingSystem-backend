@@ -11,7 +11,8 @@ public class User {
     private String userName;
     private String password;
     private String status;
-    private String role;
+    @OneToOne
+    private Role role;
     private String email;
     private String phone;
 
@@ -63,11 +64,11 @@ public class User {
         this.status = status;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

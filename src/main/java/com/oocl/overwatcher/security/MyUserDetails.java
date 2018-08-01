@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by linyuan on 2017/12/9.
- */
 public class MyUserDetails implements UserDetails {
 
     private User user;

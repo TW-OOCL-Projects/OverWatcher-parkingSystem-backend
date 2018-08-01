@@ -4,7 +4,7 @@ CREATE TABLE `User` (
   `user_name`         VARCHAR(20)  ,
   `password` VARCHAR(60)  ,
   `status` VARCHAR(20)  ,
-  `role` VARCHAR(20)  ,
+  `role_id`  BIGINT ,
   `email` VARCHAR(20)  ,
   `phone` VARCHAR(20)
 );
