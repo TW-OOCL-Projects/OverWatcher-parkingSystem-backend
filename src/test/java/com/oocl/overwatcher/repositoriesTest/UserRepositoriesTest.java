@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -36,18 +37,19 @@ public class UserRepositoriesTest {
         assertThat(userList.get(1).getName(), is("bale"));
 
     }
+
+
     @Test
-    public void addUser() {
-//        //given
-//        Role role = new Role("manger");
-//        User user = new User("bale","冻结",role,"544097676@qq.com","112233");
-//        //when
-//        userRepositories.save(user);
-//        //then
-//        assertThat(userRepositories.findAll().get(1).getName(),is("bale"));
-//        assertThat(userRepositories.findAll().get(1).getId(),is(2L));
-//        assertThat(userRepositories.findAll().get(1).getStatus(),is("冻结"));
-//        assertThat(userRepositories.findAll().get(1).getEmail(),is("544097676@qq.com"));
-//        assertThat(userRepositories.findAll().get(1).getPhone(),is("112233"));
+    public void findUserWithRoles() {
+        //given
+        Role role = new Role("manager");
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(role);
+        testEntityManager.persist(new User("bale",roleList));
+        //when
+        List<User> userList = userRepositories.findAll();
+        //then
+        assertThat(userList.get(1).getRoleList().size(),is(1));
+        assertThat(userRepositories.findAll().get(1).getRoleList().get(0).getName(),is("manager"));
     }
 }
