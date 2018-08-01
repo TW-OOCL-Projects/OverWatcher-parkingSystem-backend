@@ -1,4 +1,4 @@
-package service;
+package com.oocl.overwatcher.service;
 
 import com.oocl.overwatcher.entities.Orders;
 import com.oocl.overwatcher.repositories.OrdersRepository;
@@ -9,15 +9,8 @@ import java.util.List;
 @Service
 public class OrdersService {
 
-    private OrdersRepository ordersRepository;
-
-    public OrdersService() {
-    }
-
     @Autowired
-    public OrdersService(OrdersRepository ordersRepository) {
-        this.ordersRepository = ordersRepository;
-    }
+    private OrdersRepository ordersRepository;
 
     public List<Orders> getOrders(){
         return ordersRepository.findAll();

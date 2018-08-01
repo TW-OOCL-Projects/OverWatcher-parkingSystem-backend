@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.oocl.overwatcher.service.ParkingLotService;
+import com.oocl.overwatcher.service.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

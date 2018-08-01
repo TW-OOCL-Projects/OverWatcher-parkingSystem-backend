@@ -1,4 +1,4 @@
-package service;
+package com.oocl.overwatcher.service;
 
 import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.repositories.ParkingLotRepository;
