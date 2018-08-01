@@ -1,6 +1,5 @@
 package com.oocl.overwatcher.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -20,6 +19,10 @@ public class Authority implements GrantedAuthority {
     public Authority() {
     }
 
+    public Authority(Long id,String comment){
+        this(id,comment,null);
+    }
+
     public Authority(Long id, String comment, Role role) {
         this.id=id;
         this.comment=comment;
@@ -28,6 +31,11 @@ public class Authority implements GrantedAuthority {
 
     public Authority(String comment) {
         this.comment=comment;
+    }
+
+    public Authority(String comment, Role role) {
+        this.comment=comment;
+        this.role=role;
     }
 
     @Override

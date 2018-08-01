@@ -10,7 +10,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Authority> authorityList = new ArrayList<>();
     public Role() {
     }
@@ -22,6 +22,11 @@ public class Role {
     public Role( String name,List<Authority> authorityList) {
         this(name);
         this.authorityList=authorityList;
+    }
+
+    public Role(Long id, String name) {
+        this.id=id;
+        this.name=name;
     }
 
     public Long getId() {
