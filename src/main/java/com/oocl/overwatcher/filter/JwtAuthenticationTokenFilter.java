@@ -31,12 +31,16 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
         try {
             HttpServletRequest httpReq = (HttpServletRequest) servletRequest;
             String jwt = resolveToken(httpReq);
-            if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {            //验证JWT是否正确
-                Authentication authentication = this.tokenProvider.getAuthentication(jwt);      //获取用户认证信息
-                SecurityContextHolder.getContext().setAuthentication(authentication);           //将用户保存到SecurityContext
+            //验证JWT是否正确
+            if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
+                //获取用户认证信息
+                Authentication authentication = this.tokenProvider.getAuthentication(jwt);
+                //将用户保存到SecurityContext
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             filterChain.doFilter(servletRequest, servletResponse);
-        }catch (ExpiredJwtException e){                                     //JWT失效
+        }catch (ExpiredJwtException e){
+            //JWT失效
             log.info("Security exception for user {} - {}",
                     e.getClaims().getSubject(), e.getMessage());
 
@@ -46,14 +50,16 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
     }
 
     private String resolveToken(HttpServletRequest request){
-        String bearerToken = request.getHeader(WebSecurityConfig.AUTHORIZATION_HEADER);         //从HTTP头部获取TOKEN
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
-            return bearerToken.substring(7, bearerToken.length());                              //返回Token字符串，去除Bearer
+        //从HTTP头部获取TOKEN
+        String bearerToken = request.getHeader(WebSecurityConfig.AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(bearerToken)){
+            return bearerToken;
         }
-        String jwt = request.getParameter(WebSecurityConfig.AUTHORIZATION_TOKEN);               //从请求参数中获取TOKEN
-        if (StringUtils.hasText(jwt)) {
-            return jwt;
-        }
+//        //从请求参数中获取TOKEN
+//        String jwt = request.getParameter(WebSecurityConfig.AUTHORIZATION_TOKEN);
+//        if (StringUtils.hasText(jwt)) {
+//            return jwt;
+//        }
         return null;
     }
 }
