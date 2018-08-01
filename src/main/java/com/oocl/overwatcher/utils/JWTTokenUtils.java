@@ -21,17 +21,17 @@ public class JWTTokenUtils {
 
     private final Logger log = LoggerFactory.getLogger(JWTTokenUtils.class);
 
-    private static final String AUTHORITIES_KEY = "auth";
-
-    private String secretKey;           //签名密钥
-
-    private long tokenValidityInMilliseconds;       //失效日期
-
-    private long tokenValidityInMillisecondsForRememberMe;      //（记住我）失效日期
+    private static final String AUTHORITIES_KEY = "roles";
+    //签名密钥
+    private String secretKey;
+    //失效日期
+    private long tokenValidityInMilliseconds;
+    //（记住我）失效日期
+    private long tokenValidityInMillisecondsForRememberMe;
 
     @PostConstruct
     public void init() {
-        this.secretKey = "Linyuanmima";
+        this.secretKey = "overwatcher";
         int secondIn1day = 1000 * 60 * 60 * 24;
         this.tokenValidityInMilliseconds = secondIn1day * 2L;
         this.tokenValidityInMillisecondsForRememberMe = secondIn1day * 7L;
@@ -40,50 +40,60 @@ public class JWTTokenUtils {
     private final static long EXPIRATIONTIME = 432_000_000;
 
     //创建Token
-    public String createToken(Authentication authentication, Boolean rememberMe){
-        String authorities = authentication.getAuthorities().stream()       //获取用户的权限字符串，如 USER,ADMIN
+    public String createToken(Authentication authentication, Boolean rememberMe) {
+        //获取用户的角色字符串，如 USER,ADMIN
+        String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
-        long now = (new Date()).getTime();              //获取当前时间戳
-        Date validity;                                          //存放过期时间
-        if (rememberMe){
+        //获取当前时间戳
+        long now = (new Date()).getTime();
+        //存放过期时间
+        Date validity;
+        if (rememberMe) {
             validity = new Date(now + this.tokenValidityInMilliseconds);
-        }else {
+        } else {
             validity = new Date(now + this.tokenValidityInMillisecondsForRememberMe);
         }
-
-        return Jwts.builder()                                   //创建Token令牌
-                .setSubject(authentication.getName())           //设置面向用户
-                .claim(AUTHORITIES_KEY,authorities)             //添加权限属性
-                .setExpiration(validity)                        //设置失效时间
-                .signWith(SignatureAlgorithm.HS512,secretKey)   //生成签名
+        //创建Token令牌
+        return Jwts.builder()
+                //设置面向用户
+                .setSubject(authentication.getName())
+                //添加角色属性
+                .claim(AUTHORITIES_KEY, authorities)
+                //设置失效时间
+                .setExpiration(validity)
+                //生成签名
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
     //获取用户权限
-    public Authentication getAuthentication(String token){
-        System.out.println("token:"+token);
-        Claims claims = Jwts.parser()                           //解析Token的payload
+    public Authentication getAuthentication(String token) {
+        System.out.println("token:" + token);
+        //解析Token的payload
+        Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
 
         Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))         //获取用户权限字符串
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());                                                  //将元素转换为GrantedAuthority接口集合
+                //获取用户权限字符串
+                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        //将元素转换为GrantedAuthority接口集合
+                        .collect(Collectors.toList());
 
         User principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
     //验证Token是否正确
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);   //通过密钥验证Token
+            //通过密钥验证Token
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
-        }catch (SignatureException e) {                                     //签名异常
+        } catch (SignatureException e) {                                     //签名异常
             log.info("Invalid JWT signature.");
             log.trace("Invalid JWT signature trace: {}", e);
         } catch (MalformedJwtException e) {                                 //JWT格式错误
