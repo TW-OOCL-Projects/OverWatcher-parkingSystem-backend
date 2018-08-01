@@ -1,0 +1,4 @@
+CREATE TABLE `Role` (
+  `id` BIGINT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name`         VARCHAR(20)
+);

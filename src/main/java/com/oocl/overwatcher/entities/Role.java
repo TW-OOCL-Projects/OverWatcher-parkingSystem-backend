@@ -1,13 +1,27 @@
 package com.oocl.overwatcher.entities;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private List<Role> roleList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    private List<Authority> authorityList = new ArrayList<>();
     public Role() {
+    }
+
+    public Role(String name) {
+        this.name = name;
+    }
+
+    public Role( String name,List<Authority> authorityList) {
+        this(name);
+        this.authorityList=authorityList;
     }
 
     public Long getId() {
@@ -26,11 +40,11 @@ public class Role {
         this.name = name;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public List<Authority> getAuthorityList() {
+        return authorityList;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setAuthorityList(List<Authority> authorityList) {
+        this.authorityList = authorityList;
     }
 }
