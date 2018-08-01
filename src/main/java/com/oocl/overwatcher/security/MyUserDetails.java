@@ -1,15 +1,12 @@
 package com.oocl.overwatcher.security;
 
-import com.oocl.overwatcher.entities.Authority;
 import com.oocl.overwatcher.entities.Role;
 import com.oocl.overwatcher.entities.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.oocl.overwatcher.repositoriesTest;
 
-import com.oocl.overwatcher.entities.Authority;
 import com.oocl.overwatcher.entities.Role;
 import com.oocl.overwatcher.repositories.RoleRepository;
 import org.junit.Test;
