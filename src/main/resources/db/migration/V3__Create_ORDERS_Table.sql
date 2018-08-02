@@ -4,7 +4,6 @@ CREATE TABLE `orders` (
   `type`           VARCHAR(20)  NOT NULL,
   `status`         VARCHAR(20)  NOT NULL,
   `car_id`         VARCHAR(20)  NOT NULL,
-  `leave`          VARCHAR(20)  NOT NULL,
   `created_date`   TIMESTAMP DEFAULT NOW(),
   `parkinglot_id`  BIGINT
  );
