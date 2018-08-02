@@ -43,10 +43,16 @@ public class OrdersController {
         return ordersService.findById(id);
     }
 
-    //根据车牌carid查询订单
+    //根据车牌carid查询还在停车场的订单
     @GetMapping("/carId")
     public Orders findByCarId(String carId){
         return ordersService.findByCarId(carId);
+    }
+
+    //根据车牌carid查询该车牌的所有订单
+    @GetMapping("/carIds")
+    public List<Orders> findByCarIds(String carId){
+        return ordersService.findByCarIds(carId);
     }
 
     //根据状态STATUS查询订单
