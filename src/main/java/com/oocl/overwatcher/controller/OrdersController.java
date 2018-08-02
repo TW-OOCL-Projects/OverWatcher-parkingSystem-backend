@@ -32,20 +32,31 @@ public class OrdersController {
         this.ordersService = ordersService;
 //        this.userService=userService;
     }
-
+    //查询所有订单
     @GetMapping
     public HttpEntity<List<Orders>> getOrders() {
         return new ResponseEntity<>(ordersService.getOrders(), HttpStatus.OK);
     }
-
+    //根据ID查询订单
     @GetMapping("/{id}")
     public Optional<Orders> findById(@PathVariable int id){
         return ordersService.findById(id);
     }
+
+
+
+
+
+
+
     //创建停车订单
     @PostMapping
     public List<Orders> addParkOrders(@RequestBody Orders orders){
-        return ordersService.addOrders(orders);
+        if(!ordersService.existCarid(orders.getCarId())){
+            return ordersService.addOrders(orders);
+        }else {
+            return null;
+        }
     }
 
     //停车：指定停车员给订单
@@ -87,7 +98,7 @@ public class OrdersController {
         int size=parkingLotRepository.findById(parkingLotId).get().getSize()+1;
         parkingLotRepository.updateSizeById(parkingLotId,size);
         ordersService.updateStatusById(orders.getId(),Orders.STATUS_UNPARK_DONE);
-        return ordersService.findAll();
+        return ordersService.getOrders();
     }
 
 }

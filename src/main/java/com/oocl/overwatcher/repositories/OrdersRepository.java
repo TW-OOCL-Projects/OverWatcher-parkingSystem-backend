@@ -26,6 +26,5 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
     void updateParkingLotIdById(int orderId, Long parkinglot_id);
 
     @Query(value = "select `parkinglot_id` from orders where id = ?1", nativeQuery = true)
-    @Modifying
-    int findparkinglotIdById(int id);
+    Long findParkinglotIdById(int id);
 }

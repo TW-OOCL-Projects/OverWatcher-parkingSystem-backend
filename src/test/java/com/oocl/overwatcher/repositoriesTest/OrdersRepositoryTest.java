@@ -32,8 +32,8 @@ public class OrdersRepositoryTest {
         @Test
         public void findAll() {
             //given
-            testEntityManager.persist(new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001",Orders.NOT_LEAVE));
-            testEntityManager.persist(new Orders(Orders.TYPE__UNPARK,Orders.STATUS_NO,"A002",Orders.NOT_LEAVE));
+            testEntityManager.persist(new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001"));
+            testEntityManager.persist(new Orders(Orders.TYPE__UNPARK,Orders.STATUS_NO,"A002"));
 
             //when
             List<Orders> ordersList = ordersRepository.findAll();
@@ -50,7 +50,7 @@ public class OrdersRepositoryTest {
         //given
 
         //when
-        Orders orders=new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001",Orders.NOT_LEAVE);
+        Orders orders=new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001");
         ordersRepository.save(orders);
         List<Orders> ordersList = ordersRepository.findAll();
 
@@ -65,13 +65,14 @@ public class OrdersRepositoryTest {
         //given
 
         //when
-        ordersRepository.save(new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001",Orders.NOT_LEAVE));
-        ordersRepository.save(new Orders(Orders.TYPE__UNPARK,Orders.STATUS_NO,"A002",Orders.NOT_LEAVE));
+        ordersRepository.save(new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001"));
+        ordersRepository.save(new Orders(Orders.TYPE__UNPARK,Orders.STATUS_NO,"A002"));
         Orders orders = ordersRepository.findBycarId("A001");
 
         //then
         assertThat(orders.getStatus(), is(Orders.STATUS_YES));
         assertThat(orders.getType(), is(Orders.TYPE__PARK));
     }
+
     }
 

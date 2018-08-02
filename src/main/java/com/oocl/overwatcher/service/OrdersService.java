@@ -48,11 +48,7 @@ public class OrdersService {
         return ordersRepository.existsById(id);
     }
 
-    public List<Orders> findAll() {
-        return ordersRepository.findAll();
-    }
-
     public Long getParkingLotId(int id) {
-        return Long.valueOf(ordersRepository.findparkinglotIdById(id));
+        return Long.valueOf(ordersRepository.findParkinglotIdById(id));
     }
 }
