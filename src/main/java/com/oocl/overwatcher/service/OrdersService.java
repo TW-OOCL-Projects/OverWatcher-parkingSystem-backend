@@ -67,4 +67,8 @@ public class OrdersService {
     public List<Orders> findByCarIds(String carId) {
         return ordersRepository.findByCarIds(carId);
     }
+
+    public List<Orders> findAfterOreder(int boyId){
+        return ordersRepository.findAfterOreder(boyId);
+    }
 }

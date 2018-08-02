@@ -15,6 +15,8 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
 
     @Query(value = "select * from orders where car_id = ?1 and status<>'取车完成'", nativeQuery = true)
     Orders findBycarId(String carId);
+    @Query(value = "select * from orders where (`parkinglot_id` = ?1 and status='存取中') or (type = '取车' and status = '无人处理')", nativeQuery = true)
+    List<Orders> findAfterOreder(int boyId);
 
     @Query(value = "update orders set `status` = ?2 where id = ?1", nativeQuery = true)
     @Modifying
@@ -27,6 +29,8 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
     @Query(value = "update orders set `parkinglot_id` = ?2 where id = ?1", nativeQuery = true)
     @Modifying
     void updateParkingLotIdById(int orderId, Long parkinglot_id);
+
+
 
     @Query(value = "select `parkinglot_id` from orders where id = ?1", nativeQuery = true)
     Long findParkinglotIdById(int id);

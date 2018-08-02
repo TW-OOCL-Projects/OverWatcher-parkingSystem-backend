@@ -37,6 +37,11 @@ public class OrdersController {
     public HttpEntity<List<Orders>> getOrders() {
         return new ResponseEntity<>(ordersService.getOrders(), HttpStatus.OK);
     }
+    //查询所有抢单后的订单
+    @GetMapping("/after/{boyId}")
+    public HttpEntity<List<Orders>> findAfterOreder(@PathVariable int boyId) {
+        return new ResponseEntity<>(ordersService.findAfterOreder(boyId), HttpStatus.OK);
+    }
     //根据ID查询订单
     @GetMapping("/{id}")
     public Optional<Orders> findById(@PathVariable int id){
