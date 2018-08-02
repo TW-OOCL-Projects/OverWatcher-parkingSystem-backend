@@ -15,7 +15,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
 
     @Query(value = "select * from orders where car_id = ?1 and status<>'取车完成'", nativeQuery = true)
     Orders findBycarId(String carId);
-    @Query(value = "select * from orders where (`parkinglot_id` = ?1 and status='存取中') or (type = '取车' and status = '无人处理')", nativeQuery = true)
+    @Query(value = "select * from orders where (`user_id` = ?1 and status='存取中') or (type = '取车' and status = '无人处理')", nativeQuery = true)
     List<Orders> findAfterOreder(int boyId);
 
     @Query(value = "update orders set `status` = ?2 where id = ?1", nativeQuery = true)
@@ -35,7 +35,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
     @Query(value = "select `parkinglot_id` from orders where id = ?1", nativeQuery = true)
     Long findParkinglotIdById(int id);
 
-    @Query(value = "select * from orders where status = ?1", nativeQuery = true)
+    @Query(value = "select * from orders where status = ?1 and type = '存车'", nativeQuery = true)
     List<Orders> findByStaus(String status);
 
     @Query(value = "select * from orders where type = ?1", nativeQuery = true)

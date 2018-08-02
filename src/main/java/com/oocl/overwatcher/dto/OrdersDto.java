@@ -13,6 +13,7 @@ public class OrdersDto {
     private Long parkingLotId;
     private Long usersId;
     private ZonedDateTime time;
+    private Long userId;
 
     public ZonedDateTime getTime() {
         return time;
@@ -20,6 +21,10 @@ public class OrdersDto {
 
     public void setTime(ZonedDateTime time) {
         this.time = time;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public int getId() {
@@ -86,5 +91,6 @@ public class OrdersDto {
         this.parkingLotId=orders.getParkingLot().getId();
         this.usersId=orders.getUser().getId();
         this.time=orders.getCreatedDate();
+        this.userId = orders.getUser().getId();
     }
 }
