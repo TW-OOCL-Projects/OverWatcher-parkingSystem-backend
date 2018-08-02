@@ -43,13 +43,13 @@ public class OrdersController {
         return ordersService.findById(id);
     }
 
-    //根据状车牌态查询订单
+    //根据状车牌查询订单
     @GetMapping("/carId/{carId}")
     public Orders findByCarId(@PathVariable String carId){
         return ordersService.findByCarId(carId);
     }
 
-    //根据状STATUS态查询订单
+    //根据状态STATUS查询订单
     @GetMapping("/status")
     public List<Orders> findByStatus(String status){
         return ordersService.findByStatus(status);
