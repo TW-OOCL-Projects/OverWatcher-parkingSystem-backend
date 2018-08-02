@@ -43,7 +43,7 @@ public class OrdersController {
         return ordersService.findById(id);
     }
 
-    //根据状车牌查询订单
+    //根据车牌carid查询订单
     @GetMapping("/carId/{carId}")
     public Orders findByCarId(@PathVariable String carId){
         return ordersService.findByCarId(carId);
