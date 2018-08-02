@@ -44,8 +44,8 @@ public class OrdersController {
     }
 
     //根据车牌carid查询订单
-    @GetMapping("/carId/{carId}")
-    public Orders findByCarId(@PathVariable String carId){
+    @GetMapping("/carId")
+    public Orders findByCarId(String carId){
         return ordersService.findByCarId(carId);
     }
 
@@ -53,6 +53,12 @@ public class OrdersController {
     @GetMapping("/status")
     public List<Orders> findByStatus(String status){
         return ordersService.findByStatus(status);
+    }
+
+    //根据类型type查询订单
+    @GetMapping("/type")
+    public List<Orders> findByType(String type){
+        return ordersService.findByType(type);
     }
 
 

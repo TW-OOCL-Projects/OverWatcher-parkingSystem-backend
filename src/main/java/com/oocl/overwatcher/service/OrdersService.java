@@ -59,4 +59,8 @@ public class OrdersService {
     public List<Orders> findByStatus(String status) {
         return ordersRepository.findByStaus(status);
     }
+
+    public List<Orders> findByType(String type) {
+        return ordersRepository.findByType(type);
+    }
 }

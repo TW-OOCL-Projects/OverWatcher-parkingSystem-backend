@@ -12,6 +12,7 @@ import java.util.List;
 @Transactional
 @Repository
 public interface OrdersRepository extends JpaRepository<Orders,Integer> {
+
     Orders findBycarId(String carId);
 
     @Query(value = "update orders set `status` = ?2 where id = ?1", nativeQuery = true)
@@ -31,4 +32,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
 
     @Query(value = "select * from orders where status = ?1", nativeQuery = true)
     List<Orders> findByStaus(String status);
+
+    @Query(value = "select * from orders where type = ?1", nativeQuery = true)
+    List<Orders> findByType(String type);
 }
