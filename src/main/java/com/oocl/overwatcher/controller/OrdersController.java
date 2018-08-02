@@ -50,8 +50,8 @@ public class OrdersController {
     }
 
     //根据状STATUS态查询订单
-    @GetMapping("/status/{status}")
-    public List<Orders> findByStatus(@PathVariable String status){
+    @GetMapping("/status")
+    public List<Orders> findByStatus(String status){
         return ordersService.findByStatus(status);
     }
 
