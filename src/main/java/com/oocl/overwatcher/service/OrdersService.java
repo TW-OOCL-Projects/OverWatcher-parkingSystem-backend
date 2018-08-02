@@ -44,11 +44,19 @@ public class OrdersService {
     }
 
     public boolean existCarid(String carId) {
-        int id=ordersRepository.findBycarId(carId).getId();
-        return ordersRepository.existsById(id);
+        if(ordersRepository.findBycarId(carId)!=null&&ordersRepository.findBycarId(carId).getStatus()!=Orders.STATUS_UNPARK_DONE){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public Long getParkingLotId(int id) {
         return Long.valueOf(ordersRepository.findParkinglotIdById(id));
+    }
+
+    public List<Orders> findByStatus(String status) {
+        return ordersRepository.findByStaus(status);
     }
 }

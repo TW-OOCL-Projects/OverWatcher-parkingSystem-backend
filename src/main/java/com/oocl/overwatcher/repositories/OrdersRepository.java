@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -27,4 +28,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
 
     @Query(value = "select `parkinglot_id` from orders where id = ?1", nativeQuery = true)
     Long findParkinglotIdById(int id);
+
+    @Query(value = "select * from orders where status = ?1", nativeQuery = true)
+    List<Orders> findByStaus(String status);
 }

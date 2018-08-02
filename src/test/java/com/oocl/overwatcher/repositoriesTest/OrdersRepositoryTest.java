@@ -73,6 +73,36 @@ public class OrdersRepositoryTest {
         assertThat(orders.getStatus(), is(Orders.STATUS_YES));
         assertThat(orders.getType(), is(Orders.TYPE__PARK));
     }
+    @Test
+    public void findByStatus() {
+        //given
+
+        //when
+        ordersRepository.save(new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"A001"));
+        ordersRepository.save(new Orders(Orders.TYPE__UNPARK,Orders.STATUS_YES,"A002"));
+        Orders orders = ordersRepository.findByStaus(Orders.STATUS_YES).get(0);
+
+        //then
+        assertThat(orders.getStatus(), is(Orders.STATUS_YES));
+        assertThat(orders.getType(), is(Orders.TYPE__PARK));
+    }
+
+    @Test
+    public void updateStatusById() {
+        //given
+
+        //when
+        Orders orders = new Orders(Orders.TYPE__PARK,Orders.STATUS_YES,"B001");
+        ordersRepository.save(orders);
+        ordersRepository.updateStatusById(1,Orders.STATUS_NO);
+
+        //then
+        assertThat(ordersRepository.findById(1).get().getStatus(), is(Orders.STATUS_NO));
+        assertThat(ordersRepository.findById(1).get().getCarId(), is("B001"));
+    }
+
+
+
 
     }
 

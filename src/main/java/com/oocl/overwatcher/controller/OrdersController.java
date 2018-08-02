@@ -43,19 +43,26 @@ public class OrdersController {
         return ordersService.findById(id);
     }
 
+    //根据状车牌态查询订单
+    @GetMapping("/carId/{carId}")
+    public Orders findByCarId(@PathVariable String carId){
+        return ordersService.findByCarId(carId);
+    }
 
-
-
-
+    //根据状STATUS态查询订单
+    @GetMapping("/status/{status}")
+    public List<Orders> findByStatus(@PathVariable String status){
+        return ordersService.findByStatus(status);
+    }
 
 
     //创建停车订单
     @PostMapping
     public List<Orders> addParkOrders(@RequestBody Orders orders){
-        if(!ordersService.existCarid(orders.getCarId())){
-            return ordersService.addOrders(orders);
-        }else {
+        if(ordersService.existCarid(orders.getCarId())){
             return null;
+        }else {
+            return ordersService.addOrders(orders);
         }
     }
 
