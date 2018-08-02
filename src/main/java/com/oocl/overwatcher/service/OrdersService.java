@@ -26,4 +26,33 @@ public class OrdersService {
     public Optional<Orders> findById(int id) {
         return ordersRepository.findById(id);
     }
+
+    public Orders findByCarId(String carId) {
+        return ordersRepository.findBycarId(carId);
+    }
+
+    public void updateUserIdById(int orderId, Long boyId) {
+        ordersRepository.updateUserIdById(orderId,boyId);
+    }
+
+    public void updateStatusById(int orderId,String status) {
+        ordersRepository.updateStatusById(orderId,status);
+    }
+
+    public void updateParkingLotIdById(int orderId, Long parkinglotId) {
+        ordersRepository.updateParkingLotIdById(orderId,parkinglotId);
+    }
+
+    public boolean existCarid(String carId) {
+        int id=ordersRepository.findBycarId(carId).getId();
+        return ordersRepository.existsById(id);
+    }
+
+    public List<Orders> findAll() {
+        return ordersRepository.findAll();
+    }
+
+    public Long getParkingLotId(int id) {
+        return Long.valueOf(ordersRepository.findparkinglotIdById(id));
+    }
 }

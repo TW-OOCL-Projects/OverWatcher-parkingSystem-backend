@@ -8,12 +8,14 @@ import java.time.ZonedDateTime;
 
 @Entity
 public class Orders {
-    public static String TYPE__UNPARK="park";
-    public static String TYPE__PARK="unpark";
-    public static String STATUS_YES="yes";
-    public static String STATUS_NO="no";
-    public static String LEAVE="leave";
-    public static String NOT_LEAVE="not leave";
+    public static String TYPE__UNPARK="取车";
+    public static String TYPE__PARK="存车";
+    public static String STATUS_YES="存取中";
+    public static String STATUS_NO="无人处理";
+    public static String STATUS_PARK_DONE="存车完成";
+    public static String STATUS_UNPARK_DONE="取车完成";
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +28,7 @@ public class Orders {
     private String type;
     private String status;
     private String carId;
-    private String leave;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,14 +38,46 @@ public class Orders {
     @CreatedDate
     private ZonedDateTime createdDate = ZonedDateTime.now();
 
+    public static String getType_unpark() {
+        return TYPE__UNPARK;
+    }
+
+    public static void setType_unpark(String type_unpark) {
+        TYPE__UNPARK = type_unpark;
+    }
+
+    public static String getType_park() {
+        return TYPE__PARK;
+    }
+
+    public static void setType_park(String type_park) {
+        TYPE__PARK = type_park;
+    }
+
+    public static String getStatusYes() {
+        return STATUS_YES;
+    }
+
+    public static void setStatusYes(String statusYes) {
+        STATUS_YES = statusYes;
+    }
+
+    public static String getStatusNo() {
+        return STATUS_NO;
+    }
+
+    public static void setStatusNo(String statusNo) {
+        STATUS_NO = statusNo;
+    }
+
     public Orders() {
     }
 
-    public Orders(String type, String status, String carId,String leave) {
+    public Orders(String type, String status, String carId) {
         this.type=type;
         this.status=status;
         this.carId=carId;
-        this.leave=leave;
+
     }
 
     public ParkingLot getParkingLot() {
@@ -60,14 +94,6 @@ public class Orders {
 
     public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public String getLeave() {
-        return leave;
-    }
-
-    public void setLeave(String leave) {
-        this.leave = leave;
     }
 
     public int getId() {
