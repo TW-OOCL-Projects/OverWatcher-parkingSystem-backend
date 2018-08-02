@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by linyuan on 2017/12/13.
@@ -36,7 +37,7 @@ public class LoginController {
     private JWTTokenUtils jwtTokenUtils;
 
     @PostMapping("/auth/login")
-    public String login(@RequestBody LoginDTO loginDTO, HttpServletResponse httpResponse) throws Exception{
+    public Map<String, String> login(@RequestBody LoginDTO loginDTO, HttpServletResponse httpResponse) throws Exception{
         //通过用户名和密码创建一个 Authentication 认证对象，实现类为 UsernamePasswordAuthenticationToken
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword());
         //如果认证对象不为空
@@ -52,7 +53,10 @@ public class LoginController {
             String token = jwtTokenUtils.createToken(authentication,false);
             //将Token写入到Http头部
             httpResponse.addHeader(WebSecurityConfig.AUTHORIZATION_HEADER,token);
-            return user.getRoleList().get(0).getName();
+            Map<String, String> map = new HashMap<>();
+            map.put("roles",user.getRoleList().get(0).getName());
+            map.put("token",token);
+            return map;
         }catch (BadCredentialsException authentication){
             throw new Exception("密码错误");
         }
