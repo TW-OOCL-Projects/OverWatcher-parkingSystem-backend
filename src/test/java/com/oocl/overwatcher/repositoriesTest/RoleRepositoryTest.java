@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.repositoriesTest;
 
+import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.Role;
 import com.oocl.overwatcher.repositories.RoleRepository;
 import org.junit.Test;
@@ -25,10 +26,17 @@ public class RoleRepositoryTest {
     private TestEntityManager testEntityManager;
     @Test
     public void findAll(){
+        //given
+        testEntityManager.persist(new Role("manager"));
+        //when
         List<Role> roleList = roleRepository.findAll();
-        assertThat(roleList.size(),is(3));
+        //then
+        assertThat(roleList.size(),is(4));
+        assertThat(roleList.get(0).getName(),is("manager"));
+        assertThat(roleList.get(1).getName(),is("admin"));
 
     }
+
 
 
 }

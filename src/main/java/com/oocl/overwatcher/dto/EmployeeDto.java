@@ -13,6 +13,7 @@ public class EmployeeDto {
     private List<String> roleList;
     private String email;
     private String phone;
+    private String username;
 
     public Long getId() {
         return id;
@@ -38,6 +39,11 @@ public class EmployeeDto {
         return phone;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+
     public EmployeeDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
@@ -45,5 +51,6 @@ public class EmployeeDto {
         this.roleList = user.getRoleList().stream().map(role -> role.getName()).collect(Collectors.toList());
         this.email = user.getEmail();
         this.phone = user.getPhone();
+        this.username = user.getUserName();
     }
 }

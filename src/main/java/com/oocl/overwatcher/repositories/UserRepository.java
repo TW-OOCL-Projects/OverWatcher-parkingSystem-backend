@@ -15,7 +15,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query(value = "update User set `status` = ?2 where id = ?1", nativeQuery = true)
     @Modifying
     int updateStatusById( Long id, String status);
-
     @Query(value = "update User set `name` = ?2,`status` = ?3,`email` = ?4,`phone` = ?5, where id = ?1", nativeQuery = true)
     @Modifying
     int updateBasicMessageOfEmployees(Long id, String name, String status, String email,String phone);

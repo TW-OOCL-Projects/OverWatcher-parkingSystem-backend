@@ -25,6 +25,9 @@ public class UserService {
     public User findUserById(Long id){
         return userRepository.findById(id).get();
     }
+    public User findUserByParkingBoy(Long id){
+        return userRepository.findById(id).get();
+    }
     public boolean  addUser(User user){
         User saveUser = userRepository.save(user);
         return saveUser!=null;
@@ -41,4 +44,6 @@ public class UserService {
         int updateNum = userRepository.updateBasicMessageOfEmployees(user.getId(),user.getName(),user.getStatus(),user.getEmail(),user.getPhone());
         return updateNum!=0;
     }
+
+
 }

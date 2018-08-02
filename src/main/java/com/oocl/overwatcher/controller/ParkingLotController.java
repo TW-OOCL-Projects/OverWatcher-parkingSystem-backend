@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @author LIULE9
  */
 @RestController
-@RequestMapping("/parkingLots")
+    @RequestMapping("/parkingLots")
 public class ParkingLotController {
 
     @Autowired
