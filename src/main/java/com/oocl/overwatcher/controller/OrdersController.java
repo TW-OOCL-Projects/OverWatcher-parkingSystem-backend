@@ -82,6 +82,12 @@ public class OrdersController {
         return ordersService.findByType(type);
     }
 
+    //根据条件查询
+    @GetMapping("condition")
+    public List<Orders> findByCondition(String condition,String value){
+       return ordersService.findByCondition(condition,value);
+    }
+
 
     //创建停车订单
     @PostMapping

@@ -2,6 +2,7 @@ package com.oocl.overwatcher.repositories;
 
 import com.oocl.overwatcher.entities.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Repository
-public interface OrdersRepository extends JpaRepository<Orders,Integer> {
+public interface OrdersRepository extends JpaRepository<Orders,Integer>, JpaSpecificationExecutor<Orders> {
 
     @Query(value = "select * from orders where car_id = ?1 and status<>'取车完成'", nativeQuery = true)
     Orders findBycarId(String carId);
