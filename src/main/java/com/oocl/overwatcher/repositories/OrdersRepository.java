@@ -41,4 +41,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
 
     @Query(value = "select * from orders where car_id = ?1", nativeQuery = true)
     List<Orders> findByCarIds(String carId);
+
+    @Query(value = "select * from orders where `user_id` = ?1 and status='存取中'", nativeQuery = true)
+    List<Orders> findAfterOreder(int boyId);
 }
