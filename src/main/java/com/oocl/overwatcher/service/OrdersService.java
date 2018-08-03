@@ -44,16 +44,11 @@ public class OrdersService {
     }
 
     public boolean existCarid(String carId) {
-        if(ordersRepository.findBycarId(carId)!=null&&ordersRepository.findBycarId(carId).getStatus()!=Orders.STATUS_UNPARK_DONE){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return ordersRepository.findBycarId(carId) != null && !ordersRepository.findBycarId(carId).getStatus().equals(Orders.STATUS_UNPARK_DONE);
     }
 
     public Long getParkingLotId(int id) {
-        return Long.valueOf(ordersRepository.findParkinglotIdById(id));
+        return ordersRepository.findParkinglotIdById(id);
     }
 
     public List<Orders> findByStatus(String status) {
