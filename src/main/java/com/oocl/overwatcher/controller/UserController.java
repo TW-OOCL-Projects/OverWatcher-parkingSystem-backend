@@ -45,10 +45,12 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     @GetMapping("{id}/parkingLots")
     public ResponseEntity<List<ParkingLot>> finAllParkingLotByEmployeeId(@PathVariable Long id){
         return ResponseEntity.ok(userService.finAllParkingLotByEmployeeId(id));
     }
+
     @PutMapping("/status")
     public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
@@ -58,7 +60,10 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
+    @GetMapping("/onWork")
+    public List<User> findAllEmployeesOnWork(){
+        return userService.findAllEmployeesOnWork();
+    }
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<EmployeeDto> findOne(@PathVariable("id") Long id) {
