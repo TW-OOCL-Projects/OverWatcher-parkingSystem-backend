@@ -90,7 +90,7 @@ public class OrdersController {
     public Orders setUsersToOrders(@PathVariable int OrderId,@PathVariable Long BoyId){
         User boy=userRepository.findById(BoyId).get();
         List<ParkingLot> parkingLots=boy.getParkingLotList();
-        if(userRepository.findById(BoyId).get().getParkingLotList().stream().filter(x->x.getSize()!=0).collect(Collectors.toList()).size()!=0){
+        if(parkingLots.stream().filter(x->x.getSize()!=0).collect(Collectors.toList()).size()!=0){
             ordersService.updateUserIdById(OrderId,BoyId);
             ordersService.updateStatusById(OrderId,Orders.STATUS_YES);
         }
