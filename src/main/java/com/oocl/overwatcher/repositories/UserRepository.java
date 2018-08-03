@@ -21,4 +21,10 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Query(value = "select * from user where name like %?1%" ,nativeQuery =true)
     List<User> findEmployeeByName(String name);
+
+    @Query(value = "select * from user where email like %?1%" ,nativeQuery =true)
+    List<User> findEmployeeByEmail(String email);
+
+    @Query(value = "select * from user where phone like %?1%" ,nativeQuery =true)
+    List<User> findEmployeeByPhone(String phone);
 }
