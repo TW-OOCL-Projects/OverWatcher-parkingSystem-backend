@@ -108,10 +108,10 @@ public class OrdersController {
     }
 
     //用户取车，订单变为取车
-    @PostMapping("/unpark/{carId}")
-    public List<Orders> addUnParkOrders(@PathVariable String carId){
-        if(ordersService.existCarid(carId)){
-            Orders orders=ordersService.findByCarId(carId);
+    @PostMapping("/userUnParkCarId")
+    public List<Orders> addUnParkOrders( String userUnParkCarId){
+        if(ordersService.existCarid(userUnParkCarId)){
+            Orders orders=ordersService.findByCarId(userUnParkCarId);
             orders.setType(Orders.TYPE__UNPARK);
             //if(ordersService.findByCarId(carId)生病)另一种status
             orders.setStatus(Orders.STATUS_YES);
@@ -120,9 +120,9 @@ public class OrdersController {
         return ordersService.getOrders();
     }
     //停车员取车
-    @PutMapping("/{carId}")
-    public List<Orders> unPark(@PathVariable String carId){
-        Orders orders=ordersService.findByCarId(carId);
+    @PutMapping("/boyUnParkCarId")
+    public List<Orders> unPark( String boyUnParkCarId){
+        Orders orders=ordersService.findByCarId(boyUnParkCarId);
         ParkingLot parkingLot=parkingLotRepository.findById(ordersService.getParkingLotId(orders.getId())).get();
         Long parkingLotId=parkingLot.getId();
         int size=parkingLotRepository.findById(parkingLotId).get().getSize()+1;
