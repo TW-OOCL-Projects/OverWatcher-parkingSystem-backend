@@ -129,14 +129,20 @@ public class OrdersController {
     }
     //停车员取车
     @PutMapping("/boyUnParkCarId")
-    public List<Orders> unPark( String boyUnParkCarId){
+    public Orders unPark( String boyUnParkCarId){
         Orders orders=ordersService.findByCarId(boyUnParkCarId);
         ParkingLot parkingLot=parkingLotRepository.findById(ordersService.getParkingLotId(orders.getId())).get();
         Long parkingLotId=parkingLot.getId();
         int size=parkingLotRepository.findById(parkingLotId).get().getSize()+1;
         parkingLotRepository.updateSizeById(parkingLotId,size);
         ordersService.updateStatusById(orders.getId(),Orders.STATUS_UNPARK_DONE);
-        return ordersService.getOrders();
+        orders.setStatus(Orders.STATUS_UNPARK_DONE);
+        return orders;
+    }
+    //根据订单ID查看停车场ID
+    @GetMapping("/id")
+    public Long findParkingLotIdByOrderId(int id){
+        return ordersService.getParkingLotId(id);
     }
 
 }
