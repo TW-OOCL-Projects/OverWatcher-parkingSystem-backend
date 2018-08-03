@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -45,8 +45,16 @@ public class OrdersController {
     }
     //根据ID查询订单
     @GetMapping("/{id}")
-    public Optional<Orders> findById(@PathVariable int id){
-        return ordersService.findById(id);
+    public ResponseEntity<ArrayList<Orders>> findById(@PathVariable Integer id){
+        try {
+            Orders orders = ordersService.findById(id).get();
+            return ResponseEntity.ok(new ArrayList<Orders>(){{
+                add(orders);
+            }});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     //根据车牌carid查询还在停车场的订单
