@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.service;
 
+import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,7 @@ public class UserService {
         return updateNum!=0;
     }
 
-
+    public List<ParkingLot> finAllParkingLotByEmployeeId(Long employeeId){
+       return userRepository.findById(employeeId).get().getParkingLotList();
+    }
 }

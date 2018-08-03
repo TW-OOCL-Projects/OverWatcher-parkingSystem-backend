@@ -20,14 +20,14 @@ public class User {
     private List<Role> roleList;
     private String email;
     private String phone;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
     private List<ParkingLot> parkingLotList = new ArrayList<>();
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    @OneToMany(mappedBy="user",fetch = FetchType.LAZY)
     private List<Orders> ordersList = new ArrayList<>();
     public User() {
     }
@@ -46,6 +46,10 @@ public class User {
     public User(String name, List<Role> roleList) {
         this.name = name;
         this.roleList = roleList;
+    }
+
+    public User(List<ParkingLot> parkingLotList) {
+        this.parkingLotList = parkingLotList;
     }
 
     public Long getId() {
