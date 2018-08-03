@@ -2,6 +2,7 @@ package com.oocl.overwatcher.controller;
 
 import com.oocl.overwatcher.entities.Orders;
 import com.oocl.overwatcher.entities.ParkingLot;
+import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.ParkingLotRepository;
 import com.oocl.overwatcher.repositories.UserRepository;
 import com.oocl.overwatcher.service.OrdersService;
@@ -11,8 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
@@ -44,8 +46,16 @@ public class OrdersController {
     }
     //根据ID查询订单
     @GetMapping("/{id}")
-    public Optional<Orders> findById(@PathVariable int id){
-        return ordersService.findById(id);
+    public ResponseEntity<ArrayList<Orders>> findById(@PathVariable Integer id){
+        try {
+            Orders orders = ordersService.findById(id).get();
+            return ResponseEntity.ok(new ArrayList<Orders>(){{
+                add(orders);
+            }});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     //根据车牌carid查询还在停车场的订单
@@ -86,8 +96,12 @@ public class OrdersController {
     //停车：指定停车员给订单
     @PutMapping("/{OrderId}/parkingBoy/{BoyId}")
     public Orders setUsersToOrders(@PathVariable int OrderId,@PathVariable Long BoyId){
-        ordersService.updateUserIdById(OrderId,BoyId);
-        ordersService.updateStatusById(OrderId,Orders.STATUS_YES);
+        User boy=userRepository.findById(BoyId).get();
+        List<ParkingLot> parkingLots=boy.getParkingLotList();
+        if(parkingLots.stream().filter(x->x.getSize()!=0).collect(Collectors.toList()).size()!=0){
+            ordersService.updateUserIdById(OrderId,BoyId);
+            ordersService.updateStatusById(OrderId,Orders.STATUS_YES);
+        }
         return ordersService.findById(OrderId).get();
     }
 
@@ -102,10 +116,10 @@ public class OrdersController {
     }
 
     //用户取车，订单变为取车
-    @PostMapping("/unpark/{carId}")
-    public List<Orders> addUnParkOrders(@PathVariable String carId){
-        if(ordersService.existCarid(carId)){
-            Orders orders=ordersService.findByCarId(carId);
+    @PostMapping("/userUnParkCarId")
+    public List<Orders> addUnParkOrders( String userUnParkCarId){
+        if(ordersService.existCarid(userUnParkCarId)){
+            Orders orders=ordersService.findByCarId(userUnParkCarId);
             orders.setType(Orders.TYPE__UNPARK);
             //if(ordersService.findByCarId(carId)生病)另一种status
             orders.setStatus(Orders.STATUS_YES);
@@ -114,9 +128,9 @@ public class OrdersController {
         return ordersService.getOrders();
     }
     //停车员取车
-    @PutMapping("/{carId}")
-    public List<Orders> unPark(@PathVariable String carId){
-        Orders orders=ordersService.findByCarId(carId);
+    @PutMapping("/boyUnParkCarId")
+    public List<Orders> unPark( String boyUnParkCarId){
+        Orders orders=ordersService.findByCarId(boyUnParkCarId);
         ParkingLot parkingLot=parkingLotRepository.findById(ordersService.getParkingLotId(orders.getId())).get();
         Long parkingLotId=parkingLot.getId();
         int size=parkingLotRepository.findById(parkingLotId).get().getSize()+1;

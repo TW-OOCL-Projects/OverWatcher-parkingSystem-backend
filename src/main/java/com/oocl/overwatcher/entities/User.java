@@ -48,10 +48,6 @@ public class User {
         this.roleList = roleList;
     }
 
-    public User(List<ParkingLot> parkingLotList) {
-        this.parkingLotList = parkingLotList;
-    }
-
     public Long getId() {
         return id;
     }
