@@ -23,6 +23,13 @@ public class ParkingLot {
     public ParkingLot() {
     }
 
+    public ParkingLot(String name, int size, String status, int initSize) {
+        this.name = name;
+        this.size = size;
+        this.status = status;
+        this.initSize = initSize;
+    }
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "user")
     private List<Orders> ordersList = new ArrayList<>();

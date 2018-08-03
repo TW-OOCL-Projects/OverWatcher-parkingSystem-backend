@@ -49,4 +49,11 @@ public class UserService {
     public List<ParkingLot> finAllParkingLotByEmployeeId(Long employeeId){
        return userRepository.findById(employeeId).get().getParkingLotList();
     }
+
+
+//    public boolean addParkingLotToParkingBoyId(Long parkingBoyId,Long parkingLotId){
+//        User parkingBoy = userRepository.findById(parkingBoyId).get();
+//        ParkingLot parkingLot = userRepository.findById(parkingLotId).get();
+//         User user = userRepository.save(parkingBoy);
+//    }
 }

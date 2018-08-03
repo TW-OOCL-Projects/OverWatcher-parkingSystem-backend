@@ -32,4 +32,16 @@ public class ParkingLotRepositoriesTest {
      assertThat(parkingLotList.get(4).getName(),equalTo("东南"));
        assertThat(parkingLotList.get(4).getSize(),equalTo(20));
     }
+
+    @Test
+    public void is_the_parkingBoyId_in_parkingLot_is_null(){
+        //given
+        testEntityManager.persist(new ParkingLot("东南",20,"open",20));
+        //when
+        List<ParkingLot> parkingLotList = parkingLotRepository.findAll();
+        //then
+        assertThat(parkingLotList.get(6).getName(),equalTo("东南"));
+        assertThat(parkingLotList.get(6).getSize(),equalTo(20));
+        assertThat(parkingLotList.get(6).getUser(),equalTo(null));
+    }
 }
