@@ -1,7 +1,6 @@
 package com.oocl.overwatcher.controller;
 
 import com.oocl.overwatcher.dto.EmployeeDto;
-import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.service.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -16,49 +15,39 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/employees")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/employees")
-    public ResponseEntity<List<EmployeeDto>> findAllUser() {
-        List<EmployeeDto> employeeDtos = userService.findAllUser().stream().map(user -> new EmployeeDto(user)).collect(Collectors.toList());
+    @GetMapping
+    public ResponseEntity<List<EmployeeDto>> findAllUser(){
+        List<EmployeeDto> employeeDtos=userService.findAllUser().stream().map(EmployeeDto::new).collect(Collectors.toList());
         return ResponseEntity.ok(employeeDtos);
     }
 
-    @GetMapping("/parkingBoy/parkingLots/{parkingBoyId}")
-    public ResponseEntity<List<ParkingLot>> findAllUser(@PathVariable Long parkingBoyId) {
-        try {
-            List<ParkingLot> parkingLotList = userService.finAllParkingLotByEmployeeId(parkingBoyId);
-            return ResponseEntity.ok(parkingLotList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-
-    @PostMapping("/employees")
-    public ResponseEntity addUser(@RequestBody User user) {
+    @PostMapping
+    public ResponseEntity addUser(@RequestBody User user){
         user.getRoleList().forEach(role -> {
             role.getUsers().add(user);
         });
-        if (userService.addUser(user)) {
+        if (userService.addUser(user)){
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PutMapping("/employees/status")
+    @PutMapping("/status")
     public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
-            if (userService.updateStatus(user)) {
+            if(userService.updateStatus(user)){
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @GetMapping("/employees/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<EmployeeDto> findOne(@PathVariable("id") Long id) {
         try {
@@ -70,10 +59,24 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    @GetMapping("/name")
+//    @PreAuthorize("hasAnyAuthority('admin')")
+    public ResponseEntity<List<EmployeeDto>> findUsersByName(String name){
+        try {
+            if(StringUtils.isNotBlank(name)){
+                List<User> users = userService.findByName(name);
+                List<EmployeeDto> collect = users.stream().map(EmployeeDto::new).collect(Collectors.toList());
+                return ResponseEntity.ok(collect);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 
-    @PutMapping("/employees")
-    public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user) {
-        if (StringUtils.isNotBlank(user.getId() + "")) {
+    @PutMapping
+    public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user){
+        if ( StringUtils.isNotBlank(user.getId() + "")) {
             if (userService.updateBasicMessageOfEmployees(user)) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }

@@ -46,6 +46,10 @@ public class UserService {
         return updateNum!=0;
     }
 
+
+    public List<User> findByName(String name) {
+        return userRepository.findEmployeeByName(name);
+    }
     public List<ParkingLot> finAllParkingLotByEmployeeId(Long employeeId){
        return userRepository.findById(employeeId).get().getParkingLotList();
     }
