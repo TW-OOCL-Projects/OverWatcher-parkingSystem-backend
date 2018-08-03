@@ -44,4 +44,6 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer>, JpaSpec
     @Query(value = "select * from orders where `user_id` = ?1 and status='存取中'", nativeQuery = true)
     List<Orders> findAfterOreder(int boyId);
 
+    @Query(value = "select * from orders where `user_id` = ?1 and status='取车完成'", nativeQuery = true)
+    List<Orders> getHistoryByUserId(Long userId);
 }
