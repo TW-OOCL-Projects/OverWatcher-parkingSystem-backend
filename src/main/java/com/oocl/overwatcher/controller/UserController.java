@@ -38,13 +38,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-//    @PostMapping("/{parkingBoyId}/parkingLotId/{parkingLotId}")
-//    public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long parkingBoyId,@PathVariable Long parkingLotId){
-//        if (userService.addParkingLotToParkingBoy(parkingBoyId,parkingLotId)){
-//            return ResponseEntity.status(HttpStatus.CREATED).build();
-//        }
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//    }
+    @PostMapping("/{parkingBoyId}/parkingLotId/{parkingLotId}")
+    public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long parkingBoyId,@PathVariable Long parkingLotId){
+        if (userService.addParkingLotToParkingBoy(parkingBoyId,parkingLotId)){
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
     @GetMapping("{id}/parkingLots")
     public ResponseEntity<List<ParkingLot>> finAllParkingLotByEmployeeId(@PathVariable Long id){
         return ResponseEntity.ok(userService.finAllParkingLotByEmployeeId(id));
