@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -66,7 +67,9 @@ public class UserService {
         return userRepository.findEmployeeByPhone(phone);
     }
 
-
+    public List<User> findAllEmployeesOnWork() {
+        return userRepository.findAllEmployeesOnWork().stream().filter(user -> user.getRoleList().get(0).getName().equals("员工")).collect(Collectors.toList());
+    }
 
     public boolean addParkingLotToParkingBoy(Long parkingBoyId,Long parkingLotId){
         User parkingBoy = userRepository.findById(parkingBoyId).get();
