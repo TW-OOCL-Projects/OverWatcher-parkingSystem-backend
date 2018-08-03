@@ -66,7 +66,9 @@ public class UserService {
         return userRepository.findEmployeeByPhone(phone);
     }
 
-
+    public List<User> findAllEmployeesOnWork() {
+        return userRepository.findAllEmployeesOnWork();
+    }
 
     public boolean addParkingLotToParkingBoy(Long parkingBoyId,Long parkingLotId){
         User parkingBoy = userRepository.findById(parkingBoyId).get();
