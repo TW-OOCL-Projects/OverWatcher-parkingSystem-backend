@@ -153,7 +153,7 @@ public class OrdersController {
         return ordersService.getParkingLotId(id);
     }
     //根据停车员ID查看历史订单
-    @GetMapping("/orders/{userId}")
+    @GetMapping("/parkingBoy/{userId}")
     public List<Orders> getHistoryByUserId(@PathVariable Long userId){
         return ordersService.getHistoryByUserId(userId);
     }
