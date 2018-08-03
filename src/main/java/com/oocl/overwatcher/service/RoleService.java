@@ -1,7 +1,6 @@
 package com.oocl.overwatcher.service;
 
 import com.oocl.overwatcher.entities.Role;
-import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

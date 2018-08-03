@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
@@ -86,8 +87,10 @@ public class OrdersController {
     //停车：指定停车员给订单
     @PutMapping("/{OrderId}/parkingBoy/{BoyId}")
     public Orders setUsersToOrders(@PathVariable int OrderId,@PathVariable Long BoyId){
-        ordersService.updateUserIdById(OrderId,BoyId);
-        ordersService.updateStatusById(OrderId,Orders.STATUS_YES);
+        if(userRepository.findById(BoyId).get().getParkingLotList().stream().filter(x->x.getSize()!=0).collect(Collectors.toList()).size()!=0){
+            ordersService.updateUserIdById(OrderId,BoyId);
+            ordersService.updateStatusById(OrderId,Orders.STATUS_YES);
+        }
         return ordersService.findById(OrderId).get();
     }
 
