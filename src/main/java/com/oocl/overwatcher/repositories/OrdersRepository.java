@@ -28,8 +28,6 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
     @Modifying
     void updateParkingLotIdById(int orderId, Long parkinglot_id);
 
-
-
     @Query(value = "select `parkinglot_id` from orders where id = ?1", nativeQuery = true)
     Long findParkinglotIdById(int id);
 
@@ -44,4 +42,5 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer> {
 
     @Query(value = "select * from orders where `user_id` = ?1 and status='存取中'", nativeQuery = true)
     List<Orders> findAfterOreder(int boyId);
+
 }

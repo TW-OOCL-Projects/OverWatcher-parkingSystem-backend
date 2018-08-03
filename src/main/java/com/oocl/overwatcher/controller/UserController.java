@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,17 +37,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-//    @PostMapping("/{parkingBoyId}/parkingLotId/{parkingLotId}")
-//    public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long parkingBoyId,@PathVariable Long parkingLotId){
-//        if (userService.addParkingLotToParkingBoy(parkingBoyId,parkingLotId)){
-//            return ResponseEntity.status(HttpStatus.CREATED).build();
-//        }
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//    }
+    @PostMapping("/{parkingBoyId}/parkingLotId/{parkingLotId}")
+    public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long parkingBoyId,@PathVariable Long parkingLotId){
+        if (userService.addParkingLotToParkingBoy(parkingBoyId,parkingLotId)){
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
     @GetMapping("{id}/parkingLots")
     public ResponseEntity<List<ParkingLot>> finAllParkingLotByEmployeeId(@PathVariable Long id){
         return ResponseEntity.ok(userService.finAllParkingLotByEmployeeId(id));
     }
+
     @PutMapping("/status")
     public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
@@ -58,7 +59,10 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
+    @GetMapping("/onWork")
+    public List<User> findAllEmployeesOnWork(){
+        return userService.findAllEmployeesOnWork();
+    }
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<EmployeeDto> findOne(@PathVariable("id") Long id) {
