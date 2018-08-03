@@ -1,6 +1,7 @@
 package com.oocl.overwatcher.controller;
 
 import com.oocl.overwatcher.dto.EmployeeDto;
+import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.service.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+//    @PostMapping("/{parkingBoyId}/parkingLotId/{parkingLotId}")
+//    public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long parkingBoyId,@PathVariable Long parkingLotId){
+//        if (userService.addParkingLotToParkingBoy(parkingBoyId,parkingLotId)){
+//            return ResponseEntity.status(HttpStatus.CREATED).build();
+//        }
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//    }
+    @GetMapping("{id}/parkingLots")
+    public ResponseEntity<List<ParkingLot>> finAllParkingLotByEmployeeId(@PathVariable Long id){
+        return ResponseEntity.ok(userService.finAllParkingLotByEmployeeId(id));
+    }
     @PutMapping("/status")
     public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {

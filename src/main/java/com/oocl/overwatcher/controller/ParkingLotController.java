@@ -96,7 +96,7 @@ public class ParkingLotController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    @GetMapping("/hasNotOwner")
+    @GetMapping("/nonOwner")
     public List<ParkingLot> finAllParkingLotNoOwner(){
         return parkingLotService.finAllParkingLotNoOwner();
     }
