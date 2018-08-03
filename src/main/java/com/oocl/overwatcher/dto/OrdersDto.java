@@ -9,8 +9,7 @@ public class OrdersDto {
     private String type;
     private String status;
     private String carId;
-    private String leave;
-    private Long parkingLotId;
+    private String name;
     private Long usersId;
     private ZonedDateTime time;
     private Long userId;
@@ -59,28 +58,12 @@ public class OrdersDto {
         this.carId = carId;
     }
 
-    public String getLeave() {
-        return leave;
+    public String getName() {
+        return name;
     }
 
-    public void setLeave(String leave) {
-        this.leave = leave;
-    }
-
-    public Long getParkingLotId() {
-        return parkingLotId;
-    }
-
-    public void setParkingLotId(Long parkingLotId) {
-        this.parkingLotId = parkingLotId;
-    }
-
-    public Long getUsersId() {
-        return usersId;
-    }
-
-    public void setUsersId(Long usersId) {
-        this.usersId = usersId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public OrdersDto(Orders orders) {
@@ -88,8 +71,7 @@ public class OrdersDto {
         this.type = orders.getType();
         this.status = orders.getStatus();
         this.carId=orders.getCarId();
-        this.parkingLotId=orders.getParkingLot().getId();
-        this.usersId=orders.getUser().getId();
+        this.name=orders.getParkingLot().getName();
         this.time=orders.getCreatedDate();
         this.userId = orders.getUser().getId();
     }
