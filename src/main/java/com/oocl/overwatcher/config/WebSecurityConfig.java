@@ -55,12 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //验证Http请求
                 .authorizeRequests()
                 //允许所有用户访问首页 与 登录
-                .antMatchers("/", "/auth/login","/employees").permitAll()
+                .antMatchers("/", "/auth/login").permitAll()
                 .antMatchers("/parkingLots").permitAll()
                 .antMatchers("/orders").permitAll()
                 .antMatchers("/orders/**").permitAll()
+                .antMatchers("/employees/**").permitAll()
                 .antMatchers("/employees").permitAll()
-                .antMatchers("/employees/status").permitAll()
                 .antMatchers("/orders/after/*").permitAll()
                 .antMatchers("/parkingBoy/parkingLots/*").permitAll()
                 //其它任何请求都要经过认证通过
