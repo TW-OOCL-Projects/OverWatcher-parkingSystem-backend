@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //允许所有用户访问首页 与 登录
                 .antMatchers("/", "/auth/login").permitAll()
-                .antMatchers("/parkingLots").permitAll()
+                .antMatchers("/parkingLots/**").permitAll()
                 .antMatchers("/orders").permitAll()
                 .antMatchers("/orders/**").permitAll()
                 .antMatchers("/employees/**").permitAll()
@@ -87,7 +87,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-
         return super.authenticationManagerBean();
     }
 

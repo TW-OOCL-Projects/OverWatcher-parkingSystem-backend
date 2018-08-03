@@ -99,4 +99,9 @@ public class ParkingLotController {
         return parkingLotService.finAllParkingLotNoOwner();
     }
 
+    @GetMapping("/condition")
+    public List<ParkingLot> findParkingByCondition(String condition,String value){
+        return parkingLotService.findByCondition(condition,value);
+    }
+
 }
