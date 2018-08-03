@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.service;
 
+import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,27 @@ public class UserService {
     }
 
 
+    public List<User> findByName(String name) {
+        return userRepository.findEmployeeByName(name);
+    }
+
+    public List<ParkingLot> finAllParkingLotByEmployeeId(Long employeeId){
+       return userRepository.findById(employeeId).get().getParkingLotList();
+    }
+
+    public List<User> findByEmail(String email) {
+        return userRepository.findEmployeeByEmail(email);
+    }
+
+    public List<User> findByPhone(String phone) {
+        return userRepository.findEmployeeByPhone(phone);
+    }
+
+
+
+//    public boolean addParkingLotToParkingBoyId(Long parkingBoyId,Long parkingLotId){
+//        User parkingBoy = userRepository.findById(parkingBoyId).get();
+//        ParkingLot parkingLot = userRepository.findById(parkingLotId).get();
+//         User user = userRepository.save(parkingBoy);
+//    }
 }

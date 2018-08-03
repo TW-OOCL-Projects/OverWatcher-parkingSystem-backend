@@ -18,4 +18,13 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query(value = "update User set `name` = ?2,`status` = ?3,`email` = ?4,`phone` = ?5, where id = ?1", nativeQuery = true)
     @Modifying
     int updateBasicMessageOfEmployees(Long id, String name, String status, String email,String phone);
+
+    @Query(value = "select * from user where name like %?1%" ,nativeQuery =true)
+    List<User> findEmployeeByName(String name);
+
+    @Query(value = "select * from user where email like %?1%" ,nativeQuery =true)
+    List<User> findEmployeeByEmail(String email);
+
+    @Query(value = "select * from user where phone like %?1%" ,nativeQuery =true)
+    List<User> findEmployeeByPhone(String phone);
 }

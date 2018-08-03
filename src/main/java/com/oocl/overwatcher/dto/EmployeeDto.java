@@ -14,7 +14,7 @@ public class EmployeeDto {
     private String email;
     private String phone;
     private String username;
-
+    private List<Long> parkingLotIdList;
     public Long getId() {
         return id;
     }
@@ -43,6 +43,9 @@ public class EmployeeDto {
         return username;
     }
 
+    public List<Long> getParkingLotIdList() {
+        return parkingLotIdList;
+    }
 
     public EmployeeDto(User user) {
         this.id = user.getId();
@@ -52,5 +55,6 @@ public class EmployeeDto {
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.username = user.getUserName();
+        this.parkingLotIdList = user.getParkingLotList().stream().map(parkingLot -> parkingLot.getId()).collect(Collectors.toList());
     }
 }

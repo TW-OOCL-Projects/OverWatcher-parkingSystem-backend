@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.repositoriesTest;
 
+import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.Role;
 import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.UserRepository;
@@ -51,5 +52,14 @@ public class UserRepositoriesTest {
         //then
         assertThat(userList.get(1).getRoleList().size(),is(1));
         assertThat(userRepositories.findAll().get(1).getRoleList().get(0).getName(),is("manager"));
+    }
+
+    @Test
+    public void finAllParkingLotByUser(){
+        //when
+        List<User> userList = userRepositories.findAll();
+        //then
+        assertThat(userList.get(1).getParkingLotList().size(),is(0));
+
     }
 }
