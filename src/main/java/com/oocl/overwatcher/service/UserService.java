@@ -1,6 +1,8 @@
 package com.oocl.overwatcher.service;
 
+import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
+import com.oocl.overwatcher.repositories.ParkingLotRepository;
 import com.oocl.overwatcher.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,12 +10,15 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ParkingLotRepository parkingLotRepository;
 
     public UserService(UserRepository repository) {
         this.userRepository=repository;
@@ -46,4 +51,35 @@ public class UserService {
     }
 
 
+    public List<User> findByName(String name) {
+        return userRepository.findEmployeeByName(name);
+    }
+
+    public List<ParkingLot> finAllParkingLotByEmployeeId(Long employeeId){
+       return userRepository.findById(employeeId).get().getParkingLotList();
+    }
+
+    public List<User> findByEmail(String email) {
+        return userRepository.findEmployeeByEmail(email);
+    }
+
+    public List<User> findByPhone(String phone) {
+        return userRepository.findEmployeeByPhone(phone);
+    }
+
+    public List<User> findAllEmployeesOnWork() {
+        return userRepository.findAllEmployeesOnWork().stream().filter(user -> user.getRoleList().get(0).getName().equals("员工")).collect(Collectors.toList());
+    }
+
+    public boolean addParkingLotToParkingBoy(Long parkingBoyId,Long parkingLotId){
+        User parkingBoy = userRepository.findById(parkingBoyId).get();
+        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).get();
+        if (parkingBoy!=null&&parkingLot!=null&&parkingLot.getUser()==null){
+            parkingLot.setUser(parkingBoy);
+            parkingBoy.getParkingLotList().add(parkingLot);
+            User saveParkingBoy = userRepository.save(parkingBoy);
+            return saveParkingBoy!=null;
+        }
+        return false;
+    }
 }

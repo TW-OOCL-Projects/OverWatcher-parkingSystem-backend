@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author LIULE9
@@ -36,5 +37,9 @@ public class ParkingLotService {
 
     public Optional<ParkingLot> findOne(Long id) {
         return parkingLotRepository.findById(id);
+    }
+
+    public List<ParkingLot> finAllParkingLotNoOwner(){
+        return parkingLotRepository.findAll().stream().filter(parkingLot -> parkingLot.getUser()==null).collect(Collectors.toList());
     }
 }
