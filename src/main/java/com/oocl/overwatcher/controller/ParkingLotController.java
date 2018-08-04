@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -79,7 +78,12 @@ public class ParkingLotController {
 
     public ResponseEntity<List<ParkingLotDetail>> statisticalAllParkingLotDetail() {
         List<ParkingLot> parkingLots = parkingLotService.findAll();
-        List<ParkingLotDetail> collect = parkingLots.stream().map(parkingLot -> new ParkingLotDetail(parkingLot.getName(), parkingLot.getUser()== null ? "暂无" : parkingLot.getUser().getName(), parkingLot.getSize(), parkingLot.getInitSize())).collect(Collectors.toList());
+        List<ParkingLotDetail> collect = parkingLots.stream().map(parkingLot ->
+                new ParkingLotDetail(parkingLot.getName(),
+                        parkingLot.getUser()== null ? "暂无" : parkingLot.getUser().getName(),
+                        parkingLot.getSize(),
+                        parkingLot.getInitSize()))
+                .collect(Collectors.toList());
         return ResponseEntity.ok(collect);
     }
 
