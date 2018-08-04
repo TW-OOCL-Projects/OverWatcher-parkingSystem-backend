@@ -5,7 +5,6 @@ import com.oocl.overwatcher.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -57,21 +56,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //允许所有用户访问首页 与 登录
                 .antMatchers("/", "/auth/login").permitAll()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-//                .antMatchers("/parkingLots/**").permitAll()
-//                .antMatchers("/parkingBoys/**").permitAll()
-//                .antMatchers("/orders/**").permitAll()
-//                .antMatchers("/employees/**").permitAll()
-//                .antMatchers("/parkingBoy/**").permitAll()
+                .antMatchers("/parkingLots/**").permitAll()
+                .antMatchers("/parkingBoys/**").permitAll()
+                .antMatchers("/orders/**").permitAll()
+                .antMatchers("/employees/**").permitAll()
+                .antMatchers("/parkingBoy/**").permitAll()
                 //其它任何请求都要经过认证通过
                 .anyRequest().authenticated()
                 //用户页面需要用户权限
-//                .antMatchers("/userpage").hasAnyRole("USER")
+                .antMatchers("/userpage").hasAnyRole("USER")
                 .and()
                 //设置登出
                 .logout().permitAll();
-                //添加JWT filter 在
-                http.addFilterBefore(genericFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        //添加JWT filter 在
+        http
+                .addFilterBefore(genericFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
