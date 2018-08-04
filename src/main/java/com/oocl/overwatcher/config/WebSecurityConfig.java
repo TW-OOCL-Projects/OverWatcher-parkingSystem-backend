@@ -56,11 +56,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //允许所有用户访问首页 与 登录
                 .antMatchers("/", "/auth/login").permitAll()
-                .antMatchers("/parkingLots/**").permitAll()
-                .antMatchers("/parkingBoys/**").permitAll()
-                .antMatchers("/orders/**").permitAll()
-                .antMatchers("/employees/**").permitAll()
-                .antMatchers("/parkingBoy/**").permitAll()
+//                .antMatchers("/parkingLots/**").permitAll()
+//                .antMatchers("/parkingBoys/**").permitAll()
+//                .antMatchers("/orders/**").permitAll()
+//                .antMatchers("/employees/**").permitAll()
+//                .antMatchers("/parkingBoy/**").permitAll()
                 //其它任何请求都要经过认证通过
                 .anyRequest().authenticated()
                 //用户页面需要用户权限
