@@ -2,18 +2,16 @@ package com.oocl.overwatcher.controller;
 
 import com.oocl.overwatcher.dto.ParkingLotDetail;
 import com.oocl.overwatcher.entities.ParkingLot;
+import com.oocl.overwatcher.service.ParkingLotService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import com.oocl.overwatcher.service.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -78,10 +76,10 @@ public class ParkingLotController {
     }
 
     @GetMapping("/statistical")
-    @PreAuthorize("hasAnyAuthority('admin')")
+//    @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<List<ParkingLotDetail>> statisticalAllParkingLotDetail() {
         List<ParkingLot> parkingLots = parkingLotService.findAll();
-        List<ParkingLotDetail> collect = parkingLots.stream().map(parkingLot -> new ParkingLotDetail(parkingLot.getName(), parkingLot.getUser().getName() == null ? "暂无" : parkingLot.getUser().getName(), parkingLot.getSize(), parkingLot.getInitSize())).collect(Collectors.toList());
+        List<ParkingLotDetail> collect = parkingLots.stream().map(parkingLot -> new ParkingLotDetail(parkingLot.getName(), parkingLot.getUser()== null ? "暂无" : parkingLot.getUser().getName(), parkingLot.getSize(), parkingLot.getInitSize())).collect(Collectors.toList());
         return ResponseEntity.ok(collect);
     }
 
@@ -101,5 +99,9 @@ public class ParkingLotController {
         return parkingLotService.finAllParkingLotNoOwner();
     }
 
+    @GetMapping("/condition")
+    public List<ParkingLot> findParkingByCondition(String condition,String value){
+        return parkingLotService.findByCondition(condition,value);
+    }
 
 }

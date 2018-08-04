@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +27,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         user.getRoleList().forEach(role -> {
             role.getUsers().add(user);
         });
-        if (userService.addUser(user)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+        User afterSaveUser = userService.addUser(user);
+        if (afterSaveUser!=null) {
+            return ResponseEntity.ok(afterSaveUser);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }

@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.controller;
 
+import com.oocl.overwatcher.dto.OrdersDto;
 import com.oocl.overwatcher.entities.Orders;
 import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
@@ -82,6 +83,12 @@ public class OrdersController {
         return ordersService.findByType(type);
     }
 
+    //根据条件查询
+    @GetMapping("condition")
+    public List<Orders> findByCondition(String condition,String value){
+       return ordersService.findByCondition(condition,value);
+    }
+
 
     //创建停车订单
     @PostMapping
@@ -129,14 +136,26 @@ public class OrdersController {
     }
     //停车员取车
     @PutMapping("/boyUnParkCarId")
-    public List<Orders> unPark( String boyUnParkCarId){
+    public OrdersDto unPark(String boyUnParkCarId){
         Orders orders=ordersService.findByCarId(boyUnParkCarId);
         ParkingLot parkingLot=parkingLotRepository.findById(ordersService.getParkingLotId(orders.getId())).get();
         Long parkingLotId=parkingLot.getId();
         int size=parkingLotRepository.findById(parkingLotId).get().getSize()+1;
         parkingLotRepository.updateSizeById(parkingLotId,size);
         ordersService.updateStatusById(orders.getId(),Orders.STATUS_UNPARK_DONE);
-        return ordersService.getOrders();
+        orders.setStatus(Orders.STATUS_UNPARK_DONE);
+        orders.setParkingLot(parkingLot);
+        return new OrdersDto(orders);
+    }
+    //根据订单ID查看停车场ID
+    @GetMapping("/id")
+    public Long findParkingLotIdByOrderId(int id){
+        return ordersService.getParkingLotId(id);
+    }
+    //根据停车员ID查看历史订单
+    @GetMapping("/parkingBoy/{userId}")
+    public List<Orders> getHistoryByUserId(@PathVariable Long userId){
+        return ordersService.getHistoryByUserId(userId);
     }
 
 }
