@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -74,9 +75,17 @@ public class UserService {
     }
 
     public List<User> findAllEmployeesOnWork() {
-        return userRepository.findAllEmployeesOnWork().stream().filter(user -> user.getRoleList().get(0).getName().equals("员工")).collect(Collectors.toList());
+        List<User> userList= userRepository.findAllEmployeesOnWork().stream().filter(user -> (user.getRoleList().get(0).getName().equals("员工")&&user.getParkingLotList().size()!=0)
+        ).collect(Collectors.toList());
+       for (int i=0; i<userList.size();i++){
+           for (int j=0; j<userList.get(i).getParkingLotList().size();j++){
+               if (userList.get(i).getParkingLotList().get(j).getSize()<=0){
+                   userList.get(i).getParkingLotList().remove(userList.get(i).getParkingLotList().get(j));
+               }
+           }
+       }
+        return userList;
     }
-
     public boolean addParkingLotToParkingBoy(Long parkingBoyId,Long parkingLotId){
         User parkingBoy = userRepository.findById(parkingBoyId).get();
         ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).get();
