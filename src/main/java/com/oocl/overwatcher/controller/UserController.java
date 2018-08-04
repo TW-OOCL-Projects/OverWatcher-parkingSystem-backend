@@ -21,23 +21,27 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<EmployeeDto>> findAllUser() {
         List<EmployeeDto> employeeDtos = userService.findAllUser().stream().map(EmployeeDto::new).collect(Collectors.toList());
         return ResponseEntity.ok(employeeDtos);
     }
 
     @PostMapping
-    public ResponseEntity addUser(@RequestBody User user) {
+    @PreAuthorize("hasAnyAuthority('管理员')")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         user.getRoleList().forEach(role -> {
             role.getUsers().add(user);
         });
-        if (userService.addUser(user)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+        User afterSaveUser = userService.addUser(user);
+        if (afterSaveUser!=null) {
+            return ResponseEntity.ok(afterSaveUser);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PostMapping("/{parkingBoyId}/parkingLotId/{parkingLotId}")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long parkingBoyId,@PathVariable Long parkingLotId){
         if (userService.addParkingLotToParkingBoy(parkingBoyId,parkingLotId)){
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -46,11 +50,13 @@ public class UserController {
     }
 
     @GetMapping("{id}/parkingLots")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<ParkingLot>> finAllParkingLotByEmployeeId(@PathVariable Long id){
         return ResponseEntity.ok(userService.finAllParkingLotByEmployeeId(id));
     }
 
     @PutMapping("/status")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
             if (userService.updateStatus(user)) {
@@ -60,11 +66,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     @GetMapping("/onWork")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public List<User> findAllEmployeesOnWork(){
         return userService.findAllEmployeesOnWork();
     }
+
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<EmployeeDto> findOne(@PathVariable("id") Long id) {
         try {
             User user = userService.findOne(id).orElseThrow(() -> new Exception("找不到该用户"));
@@ -76,7 +84,7 @@ public class UserController {
     }
 
     @GetMapping("/name")
-//    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<EmployeeDto>> findUsersByName(String name) {
         try {
             if (StringUtils.isNotBlank(name)) {
@@ -92,7 +100,7 @@ public class UserController {
 
 
     @GetMapping("/email")
-    //    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<EmployeeDto>> findUsersByEmail(String email) {
         try {
             if (StringUtils.isNotBlank(email)) {
@@ -108,7 +116,7 @@ public class UserController {
 
 
     @GetMapping("/phone")
-    //    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<EmployeeDto>> findUsersByPhone(String phone) {
         try {
             if (StringUtils.isNotBlank(phone)) {
@@ -123,7 +131,7 @@ public class UserController {
     }
 
     @GetMapping("/role")
-    //    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<EmployeeDto>> findUsersByRole(String role) {
         try {
             if (StringUtils.isNotBlank(role)) {
@@ -140,6 +148,7 @@ public class UserController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getId() + "")) {
             if (userService.updateBasicMessageOfEmployees(user)) {

@@ -13,3 +13,8 @@ insert into Parking_Lot values (4,'东南停车场',9,'开放',20,1);
 insert into Parking_Lot values (5,'东南停车场',9,'开放',20,2);
 insert into Parking_Lot(id,name,size,status,init_size) values (6,'东南停车场',9,'开放',20);
 insert into Parking_Lot(id,name,size,status,init_size) values (7,'东北停车场',9,'开放',20);
+insert into Parking_Lot(id,name,size,status,init_size,user_id) values (8,'东南停车场',9,'开放',20,4);
+insert into Parking_Lot(id,name,size,status,init_size,user_id) values (9,'东北停车场',0,'开放',20,4);
+insert into Parking_Lot(id,name,size,status,init_size,user_id) values (10,'东南停车场',9,'开放',20,5);
+insert into Parking_Lot(id,name,size,status,init_size,user_id) values (11,'东北停车场',0,'开放',20,5);
+insert into Parking_Lot(id,name,size,status,init_size,user_id) values (12,'东北停车场',9,'开放',20,5);
