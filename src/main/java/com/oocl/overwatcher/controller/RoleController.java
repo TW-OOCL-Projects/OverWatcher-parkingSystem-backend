@@ -20,7 +20,7 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/parkingBoys")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+  
     public List<EmployeeDto> findAllParkingBoys() {
         List<User> parkingBoys = new ArrayList<>();
         roleService.findAllParkingBoys().forEach(role -> parkingBoys.addAll(role.getUsers()));
@@ -29,7 +29,7 @@ public class RoleController {
 
 
     @GetMapping("/parkingBoys/condition")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+  
     public List<EmployeeDto> findAllParkingBoysByCondition(String condition, String value) {
         List<User> parkingBoys = new ArrayList<>();
         roleService.findAllParkingBoys().forEach(role -> parkingBoys.addAll(role.getUsers()));

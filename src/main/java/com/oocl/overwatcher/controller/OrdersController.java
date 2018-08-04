@@ -39,21 +39,21 @@ public class OrdersController {
 
     //查询所有订单
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public HttpEntity<List<Orders>> getOrders() {
         return new ResponseEntity<>(ordersService.getOrders(), HttpStatus.OK);
     }
 
     //查询所有抢单后的订单
     @GetMapping("/after/{boyId}")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public HttpEntity<List<Orders>> findAfterOreder(@PathVariable int boyId) {
         return new ResponseEntity<>(ordersService.findAfterOreder(boyId), HttpStatus.OK);
     }
 
     //根据ID查询订单
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public ResponseEntity<ArrayList<Orders>> findById(@PathVariable Integer id) {
         try {
             Orders orders = ordersService.findById(id).get();
@@ -68,35 +68,35 @@ public class OrdersController {
 
     //根据车牌carid查询还在停车场的订单
     @GetMapping("/carId")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public Orders findByCarId(String carId) {
         return ordersService.findByCarId(carId);
     }
 
     //根据车牌carid查询该车牌的所有订单
     @GetMapping("/carIds")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public List<Orders> findByCarIds(String carId) {
         return ordersService.findByCarIds(carId);
     }
 
     //根据状态STATUS查询订单
     @GetMapping("/status")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public List<Orders> findByStatus(String status) {
         return ordersService.findByStatus(status);
     }
 
     //根据类型type查询订单
     @GetMapping("/type")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public List<Orders> findByType(String type) {
         return ordersService.findByType(type);
     }
 
     //根据条件查询
     @GetMapping("condition")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public List<Orders> findByCondition(String condition, String value) {
         return ordersService.findByCondition(condition, value);
     }
@@ -104,7 +104,7 @@ public class OrdersController {
 
     //创建停车订单
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public List<Orders> addParkOrders(@RequestBody Orders orders) {
         if (ordersService.existCarid(orders.getCarId())) {
             return null;
@@ -115,7 +115,7 @@ public class OrdersController {
 
     //停车：指定停车员给订单
     @PutMapping("/{OrderId}/parkingBoy/{BoyId}")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public Orders setUsersToOrders(@PathVariable int OrderId, @PathVariable Long BoyId) {
         User boy = userRepository.findById(BoyId).get();
         List<ParkingLot> parkingLots = boy.getParkingLotList();
@@ -128,7 +128,7 @@ public class OrdersController {
 
     //停车：指定停车场给订单
     @PutMapping("/{OrderId}/parkingLot/{ParkingLotId}")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public Orders setParkingLotToOrders(@PathVariable int OrderId, @PathVariable Long ParkingLotId) {
         ordersService.updateParkingLotIdById(OrderId, ParkingLotId);
         int size = parkingLotRepository.findById(ParkingLotId).get().getSize() - 1;
@@ -139,7 +139,7 @@ public class OrdersController {
 
     //用户取车，订单变为取车
     @PostMapping("/userUnParkCarId")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public List<Orders> addUnParkOrders(String userUnParkCarId) {
         if (ordersService.existCarid(userUnParkCarId)) {
             Orders orders = ordersService.findByCarId(userUnParkCarId);
@@ -153,7 +153,7 @@ public class OrdersController {
 
     //停车员取车
     @PutMapping("/boyUnParkCarId")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public OrdersDto unPark(String boyUnParkCarId) {
         Orders orders = ordersService.findByCarId(boyUnParkCarId);
         ParkingLot parkingLot = parkingLotRepository.findById(ordersService.getParkingLotId(orders.getId())).get();
@@ -168,14 +168,14 @@ public class OrdersController {
 
     //根据订单ID查看停车场ID
     @GetMapping("/id")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public Long findParkingLotIdByOrderId(int id) {
         return ordersService.getParkingLotId(id);
     }
 
     //根据停车员ID查看历史订单
     @GetMapping("/parkingBoy/{userId}")
-    @PreAuthorize("hasAnyAuthority('管理员')")
+
     public List<Orders> getHistoryByUserId(@PathVariable Long userId) {
         return ordersService.getHistoryByUserId(userId);
     }
