@@ -94,12 +94,15 @@ public class ParkingLotController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
     @GetMapping("/nonOwner")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public List<ParkingLot> finAllParkingLotNoOwner(){
         return parkingLotService.finAllParkingLotNoOwner();
     }
 
     @GetMapping("/condition")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public List<ParkingLot> findParkingByCondition(String condition,String value){
         return parkingLotService.findByCondition(condition,value);
     }
