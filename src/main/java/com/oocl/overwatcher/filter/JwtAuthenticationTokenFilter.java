@@ -55,11 +55,6 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
         if (StringUtils.hasText(bearerToken)){
             return bearerToken;
         }
-//        //从请求参数中获取TOKEN
-//        String jwt = request.getParameter(WebSecurityConfig.AUTHORIZATION_TOKEN);
-//        if (StringUtils.hasText(jwt)) {
-//            return jwt;
-//        }
         return null;
     }
 }

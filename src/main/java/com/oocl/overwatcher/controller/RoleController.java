@@ -5,6 +5,7 @@ import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.service.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +20,7 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/parkingBoys")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public List<EmployeeDto> findAllParkingBoys() {
         List<User> parkingBoys = new ArrayList<>();
         roleService.findAllParkingBoys().forEach(role -> parkingBoys.addAll(role.getUsers()));

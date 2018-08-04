@@ -25,7 +25,7 @@ public class ParkingLotController {
     private ParkingLotService parkingLotService;
 
     @GetMapping
-//    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<ParkingLot>> findAll() {
         return ResponseEntity.ok(parkingLotService.findAll());
     }
@@ -66,7 +66,7 @@ public class ParkingLotController {
      * @return
      */
     @PutMapping
-    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<Void> updateParkingLot(@NotNull @RequestBody ParkingLot parkingLot) {
         if (parkingLot.getId() != null) {
             parkingLotService.save(parkingLot);
@@ -76,7 +76,7 @@ public class ParkingLotController {
     }
 
     @GetMapping("/statistical")
-//    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<ParkingLotDetail>> statisticalAllParkingLotDetail() {
         List<ParkingLot> parkingLots = parkingLotService.findAll();
         List<ParkingLotDetail> collect = parkingLots.stream().map(parkingLot -> new ParkingLotDetail(parkingLot.getName(), parkingLot.getUser()== null ? "暂无" : parkingLot.getUser().getName(), parkingLot.getSize(), parkingLot.getInitSize())).collect(Collectors.toList());
@@ -84,7 +84,7 @@ public class ParkingLotController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('admin')")
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<ParkingLot> findOne(@PathVariable("id") Long id) {
         try {
             ParkingLot parkingLot = parkingLotService.findOne(id).orElseThrow(() -> new Exception("没有该停车场"));

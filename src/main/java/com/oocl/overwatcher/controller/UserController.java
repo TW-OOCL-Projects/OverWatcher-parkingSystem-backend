@@ -21,6 +21,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('管理员')")
     public ResponseEntity<List<EmployeeDto>> findAllUser() {
         List<EmployeeDto> employeeDtos = userService.findAllUser().stream().map(EmployeeDto::new).collect(Collectors.toList());
         return ResponseEntity.ok(employeeDtos);
