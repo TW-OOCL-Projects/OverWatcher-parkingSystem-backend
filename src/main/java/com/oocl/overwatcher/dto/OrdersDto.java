@@ -13,6 +13,14 @@ public class OrdersDto {
     private Long usersId;
     private ZonedDateTime time;
 
+    public Long getUsersId() {
+        return usersId;
+    }
+
+    public void setUsersId(Long usersId) {
+        this.usersId = usersId;
+    }
+
     public ZonedDateTime getTime() {
         return time;
     }
@@ -66,7 +74,12 @@ public class OrdersDto {
         this.type = orders.getType();
         this.status = orders.getStatus();
         this.carId=orders.getCarId();
-        this.name=orders.getParkingLot().getName();
+        if(orders.getParkingLot()==null){
+            this.name=null;
+        }else{
+            this.name=orders.getParkingLot().getName();
+        }
         this.time=orders.getCreatedDate();
+        this.usersId=orders.getUser().getId();
     }
 }
