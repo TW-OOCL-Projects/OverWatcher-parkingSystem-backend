@@ -59,14 +59,12 @@ public class ParkingLotService {
                     predicate = criteriaBuilder.lessThanOrEqualTo(root.get("size").as(Integer.class), Integer.parseInt(value));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
-                    predicate = null;
                 }
             } else if (StringUtils.isNotBlank(condition) && "size-more".equals(condition)) {
                 try {
                     predicate = criteriaBuilder.greaterThanOrEqualTo(root.get("size").as(Integer.class), Integer.parseInt(value));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
-                    predicate = null;
                 }
             } else if (StringUtils.isNotBlank(condition) && "status".equals(condition)) {
                 predicate = criteriaBuilder.equal(root.get("status").as(String.class), value);
