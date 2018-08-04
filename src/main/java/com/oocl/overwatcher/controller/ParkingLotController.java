@@ -76,10 +76,10 @@ public class ParkingLotController {
     }
 
     @GetMapping("/statistical")
-    @PreAuthorize("hasAnyAuthority('admin')")
+//    @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<List<ParkingLotDetail>> statisticalAllParkingLotDetail() {
         List<ParkingLot> parkingLots = parkingLotService.findAll();
-        List<ParkingLotDetail> collect = parkingLots.stream().map(parkingLot -> new ParkingLotDetail(parkingLot.getName(), parkingLot.getUser().getName() == null ? "暂无" : parkingLot.getUser().getName(), parkingLot.getSize(), parkingLot.getInitSize())).collect(Collectors.toList());
+        List<ParkingLotDetail> collect = parkingLots.stream().map(parkingLot -> new ParkingLotDetail(parkingLot.getName(), parkingLot.getUser()== null ? "暂无" : parkingLot.getUser().getName(), parkingLot.getSize(), parkingLot.getInitSize())).collect(Collectors.toList());
         return ResponseEntity.ok(collect);
     }
 
