@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +34,14 @@ public class UserService {
     public User findUserByParkingBoy(Long id){
         return userRepository.findById(id).get();
     }
-    public boolean  addUser(User user){
-        User saveUser = userRepository.save(user);
-        return saveUser!=null;
+    public User  addUser(User user){
+        String randomUsername = getRandomString(3);
+        String randomPassword = getRandomString(3);
+        user.setUserName(randomUsername);
+        user.setPassword(randomPassword);
+        user.setStatus("上班");
+        return userRepository.save(user);
+
     }
     public boolean updateStatus(User user) {
         int updateNum = userRepository.updateStatusById(user.getId(),user.getStatus());
@@ -81,5 +87,15 @@ public class UserService {
             return saveParkingBoy!=null;
         }
         return false;
+    }
+    public  String getRandomString(int length) { //length表示生成字符串的长度
+        String base = "abcdefghijklmnopqrstuvwxyz";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
     }
 }

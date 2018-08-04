@@ -15,6 +15,7 @@ public class EmployeeDto {
     private String phone;
     private String username;
     private List<Long> parkingLotIdList;
+    private String password;
     public Long getId() {
         return id;
     }
@@ -47,6 +48,10 @@ public class EmployeeDto {
         return parkingLotIdList;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public EmployeeDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
@@ -55,6 +60,8 @@ public class EmployeeDto {
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.username = user.getUserName();
+        this.password = user.getPassword();
         this.parkingLotIdList = user.getParkingLotList().stream().map(parkingLot -> parkingLot.getId()).collect(Collectors.toList());
+
     }
 }
