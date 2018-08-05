@@ -57,7 +57,7 @@ public class UserService {
     public void updateStatus(Long id) {
         User user = userRepository.findById(id).get();
         if(user.getStatus().equals("下班")||user.getStatus().equals("早退")){
-            if(ZonedDateTime.now().getHour()<0&&ZonedDateTime.now().getHour()<10){
+            if(ZonedDateTime.now().getHour()<0&&ZonedDateTime.now().getHour()>10){
                 userRepository.updateStatusById(id,"上班");
             }else {
                 userRepository.updateStatusById(id,"迟到");
