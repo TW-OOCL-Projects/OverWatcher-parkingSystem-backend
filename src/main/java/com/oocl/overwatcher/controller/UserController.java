@@ -149,16 +149,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PutMapping
-
-    public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user) {
+    @PutMapping("/{id}/alive")
+    public ResponseEntity updateAliveMessageOfEmployee(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getId() + "")) {
-            if (userService.updateBasicMessageOfEmployees(user)) {
+            if (userService.updateAlive(user)) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     @PutMapping("/changeParkingLotOwner")
     public ResponseEntity<List<ParkingLotDTO>> findAllParkingBoysByCondition(@RequestBody ChangeParkingLotDTO changeParkingLotDTO) {
         String direction = changeParkingLotDTO.getDirection();

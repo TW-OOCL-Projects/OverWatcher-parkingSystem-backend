@@ -16,6 +16,7 @@ public class User {
     private String userName;
     private String password;
     private String status;
+    private Boolean alive=true;
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "users",fetch = FetchType.LAZY,targetEntity = Role.class)
     private List<Role> roleList;
     private String email;
@@ -126,5 +127,13 @@ public class User {
 
     public void setParkingLotList(List<ParkingLot> parkingLotList) {
         this.parkingLotList = parkingLotList;
+    }
+
+    public Boolean getAlive() {
+        return alive;
+    }
+
+    public void setAlive(Boolean alive) {
+        this.alive = alive;
     }
 }

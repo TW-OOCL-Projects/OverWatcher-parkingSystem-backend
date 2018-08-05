@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by linyuan on 2017/12/13.
@@ -37,29 +38,34 @@ public class LoginController {
     private JWTTokenUtils jwtTokenUtils;
 
     @PostMapping("/auth/login")
-    public Map<String, String> login(@RequestBody LoginDTO loginDTO, HttpServletResponse httpResponse) throws Exception{
+    public Map<String, String> login(@RequestBody LoginDTO loginDTO, HttpServletResponse httpResponse) throws Exception {
         //通过用户名和密码创建一个 Authentication 认证对象，实现类为 UsernamePasswordAuthenticationToken
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
         //如果认证对象不为空
         userRepository.findByUserName(authenticationToken.getPrincipal().toString())
-                .orElseThrow(()->new Exception("用户不存在"));
+                .orElseThrow(() -> new Exception("用户不存在"));
         try {
-            User user = userRepository.findByUserName(authenticationToken.getPrincipal().toString()).get();
-            //通过 AuthenticationManager（默认实现为ProviderManager）的authenticate方法验证 Authentication 对象
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            //将 Authentication 绑定到 SecurityContext
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            //生成Token
-            String token = jwtTokenUtils.createToken(authentication,false);
-            //将Token写入到Http头部
-            httpResponse.addHeader(WebSecurityConfig.AUTHORIZATION_HEADER,token);
             Map<String, String> map = new HashMap<>();
-            map.put("roles",user.getRoleList().get(0).getName());
-            map.put("token",token);
-            map.put("id",user.getId()+"");
-            map.put("username",user.getUserName());
+            User user = userRepository.findByUserNameAndAlive(authenticationToken.getPrincipal().toString(), true).orElse(null);
+            if (user != null) {
+                //通过 AuthenticationManager（默认实现为ProviderManager）的authenticate方法验证 Authentication 对象
+                Authentication authentication = authenticationManager.authenticate(authenticationToken);
+                //将 Authentication 绑定到 SecurityContext
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                //生成Token
+                String token = jwtTokenUtils.createToken(authentication, false);
+                //将Token写入到Http头部
+                httpResponse.addHeader(WebSecurityConfig.AUTHORIZATION_HEADER, token);
+                map.put("roles", user.getRoleList().get(0).getName());
+                map.put("token", token);
+                map.put("id", user.getId() + "");
+                map.put("username", user.getUserName());
+                map.put("msg","true");
+            } else {
+                map.put("msg", "该用户已经被冻结");
+            }
             return map;
-        }catch (BadCredentialsException authentication){
+        } catch (BadCredentialsException authentication) {
             throw new Exception("密码错误");
         }
     }
