@@ -59,16 +59,12 @@ public class UserController {
         return ResponseEntity.ok(userService.finAllParkingLotByEmployeeId(id));
     }
 
-//    @PutMapping("/status")
-//
-//    public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
-//        if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
-//            if (userService.updateStatus(user)) {
-//                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//            }
-//        }
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//    }
+    @PutMapping("/status/{id}")
+
+    public User updateUserStatus(@PathVariable Long id) {
+        userService.updateStatus(id);
+        return userService.findUserById(id);
+    }
     @GetMapping("/onWork")
 
     public List<User> findAllEmployeesOnWork(){
