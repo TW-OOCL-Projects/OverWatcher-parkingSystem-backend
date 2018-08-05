@@ -32,7 +32,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Integer>, JpaSpec
     @Query(value = "select `parkinglot_id` from orders where id = ?1", nativeQuery = true)
     Long findParkinglotIdById(int id);
 
-    @Query(value = "select * from orders where status = ?1", nativeQuery = true)
+    @Query(value = "select * from orders where status = ?1 and type = '存车'", nativeQuery = true)
     List<Orders> findByStaus(String status);
 
     @Query(value = "select * from orders where type = ?1", nativeQuery = true)
