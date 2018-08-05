@@ -35,4 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select * from user where `status` = '上班'", nativeQuery = true)
     List<User> findAllEmployeesOnWork();
+
+    @Query(value = "select * from `user` where user_name=?1 and alive = ?2",nativeQuery = true)
+    Optional<User> findByUserNameAndAlive(String username, boolean b);
 }
