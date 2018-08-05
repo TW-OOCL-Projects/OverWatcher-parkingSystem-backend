@@ -107,4 +107,22 @@ public class UserService {
         }
         return sb.toString();
     }
+
+    public List<ParkingLot> changeParking(List<Long> pakingLotIds) {
+       for (Long id :pakingLotIds){
+           ParkingLot parkingLot = parkingLotRepository.findById(id).get();
+           parkingLot.setUser(null);
+           parkingLotRepository.save(parkingLot);
+       }
+        return parkingLotRepository.findAll();
+    }
+    public List<ParkingLot> addParkingLotToPakingBoy(Long pakingBoyId,List<Long> pakingLotIds) {
+        for (Long id :pakingLotIds){
+        ParkingLot parkingLot = parkingLotRepository.findById(id).get();
+        User user = userRepository.findById(pakingBoyId).get();
+        parkingLot.setUser(user);
+        parkingLotRepository.save(parkingLot);
+        }
+        return parkingLotRepository.findAll();
+    }
 }

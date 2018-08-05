@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.controller;
 
+import com.oocl.overwatcher.dto.ParkingLotDTO;
 import com.oocl.overwatcher.dto.ParkingLotDetail;
 import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.service.ParkingLotService;
@@ -26,8 +27,8 @@ public class ParkingLotController {
 
     @GetMapping
 //    @PreAuthorize("hasAnyAuthority('admin')")
-    public ResponseEntity<List<ParkingLot>> findAll() {
-        return ResponseEntity.ok(parkingLotService.findAll());
+    public ResponseEntity<List<ParkingLotDTO>> findAll() {
+        return ResponseEntity.ok(parkingLotService.findAll().stream().map(parkingLot -> new ParkingLotDTO(parkingLot)).collect(Collectors.toList()));
     }
 
 
