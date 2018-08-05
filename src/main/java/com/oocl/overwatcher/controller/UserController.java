@@ -24,6 +24,7 @@ public class UserController {
 
     public ResponseEntity<List<EmployeeDto>> findAllUser() {
         List<EmployeeDto> employeeDtos = userService.findAllUser().stream().map(EmployeeDto::new).collect(Collectors.toList());
+        System.out.println(employeeDtos.get(0).toString());
         return ResponseEntity.ok(employeeDtos);
     }
 
@@ -148,14 +149,14 @@ public class UserController {
     }
 
     @PutMapping
-
-    public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user) {
+    public ResponseEntity updateAliveMessageOfEmployee(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getId() + "")) {
-            if (userService.updateBasicMessageOfEmployees(user)) {
+            if (userService.updateAlive(user)) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
 
 }

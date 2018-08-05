@@ -48,6 +48,11 @@ public class UserService {
         int updateNum = userRepository.updateStatusById(user.getId(),user.getStatus());
         return updateNum!=0;
     }
+
+    public boolean updateAlive(User user) {
+        int updateNum = userRepository.updateAliveById(user.getId(),user.getAlive());
+        return updateNum!=0;
+    }
     public Optional<User> findOne(Long id) {
         return userRepository.findById(id);
     }

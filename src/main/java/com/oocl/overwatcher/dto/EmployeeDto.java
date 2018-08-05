@@ -16,6 +16,7 @@ public class EmployeeDto {
     private String username;
     private List<Long> parkingLotIdList;
     private String password;
+    private Boolean alive;
     public Long getId() {
         return id;
     }
@@ -52,6 +53,15 @@ public class EmployeeDto {
         return password;
     }
 
+
+    public Boolean getAlive() {
+        return alive;
+    }
+
+    public void setAlive(Boolean alive) {
+        this.alive = alive;
+    }
+
     public EmployeeDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
@@ -61,7 +71,23 @@ public class EmployeeDto {
         this.phone = user.getPhone();
         this.username = user.getUserName();
         this.password = user.getPassword();
+        this.alive=user.getAlive();
         this.parkingLotIdList = user.getParkingLotList().stream().map(parkingLot -> parkingLot.getId()).collect(Collectors.toList());
+    }
 
+    @Override
+    public String toString() {
+        return "EmployeeDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", roleList=" + roleList +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", username='" + username + '\'' +
+                ", parkingLotIdList=" + parkingLotIdList +
+                ", password='" + password + '\'' +
+                ", alive=" + alive +
+                '}';
     }
 }
