@@ -6,15 +6,13 @@ import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.UserRepository;
 import com.oocl.overwatcher.utils.JWTTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -60,7 +58,7 @@ public class LoginController {
                 map.put("token", token);
                 map.put("id", user.getId() + "");
                 map.put("username", user.getUserName());
-                map.put("msg","true");
+                map.put("msg", "true");
             } else {
                 map.put("msg", "该用户已经被冻结");
             }
@@ -68,5 +66,10 @@ public class LoginController {
         } catch (BadCredentialsException authentication) {
             throw new Exception("密码错误");
         }
+    }
+
+    @PutMapping("/logout")
+    public ResponseEntity logout(Long id) {
+        return ResponseEntity.ok().build();
     }
 }
