@@ -3,6 +3,7 @@ package com.oocl.overwatcher.dto;
 import com.oocl.overwatcher.entities.Role;
 import com.oocl.overwatcher.entities.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +11,7 @@ public class EmployeeDto {
     private Long id;
     private String name;
     private String status;
-    private List<String> roleList;
+    private List<String> roleList=new ArrayList<>();
     private String email;
     private String phone;
     private String username;
@@ -66,7 +67,10 @@ public class EmployeeDto {
         this.id = user.getId();
         this.name = user.getName();
         this.status = user.getStatus();
-        this.roleList = user.getRoleList().stream().map(role -> role.getName()).collect(Collectors.toList());
+        if (user.getRoleList()!=null&&user.getRoleList().size()>0){
+            this.roleList = user.getRoleList().stream().map(role -> role.getName()).collect(Collectors.toList());
+        }
+
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.username = user.getUserName();
