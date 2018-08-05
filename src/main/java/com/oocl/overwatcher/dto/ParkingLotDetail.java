@@ -9,12 +9,14 @@ public class ParkingLotDetail {
     private String parkingBoyName;
     private int size;
     private int initSize;
+    private Long userId;
 
     public ParkingLotDetail(String parkingLotName, String parkingBoyName, int size, int initSize) {
         this.parkingLotName = parkingLotName;
         this.parkingBoyName = parkingBoyName;
         this.size = size;
         this.initSize = initSize;
+
     }
 
     public int getSize() {
