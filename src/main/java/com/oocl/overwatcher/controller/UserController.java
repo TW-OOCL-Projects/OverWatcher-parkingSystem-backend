@@ -160,6 +160,7 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     @PutMapping("/changeParkingLotOwner")
     public ResponseEntity<List<ParkingLotDTO>> findAllParkingBoysByCondition(@RequestBody ChangeParkingLotDTO changeParkingLotDTO) {
         String direction = changeParkingLotDTO.getDirection();
