@@ -149,7 +149,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PutMapping
+    @PutMapping("/{id}/alive")
     public ResponseEntity updateAliveMessageOfEmployee(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getId() + "")) {
             if (userService.updateAlive(user)) {
