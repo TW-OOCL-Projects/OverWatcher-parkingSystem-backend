@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -110,8 +109,9 @@ public class ParkingLotController {
 
     @GetMapping("/condition")
 
-    public List<ParkingLot> findParkingByCondition(String condition,String value){
-        return parkingLotService.findByCondition(condition,value);
+    public List<ParkingLotDTO> findParkingByCondition(String condition, String value){
+        List<ParkingLot> parkingLots = parkingLotService.findByCondition(condition, value);
+        return parkingLots.stream().map(ParkingLotDTO::new).collect(Collectors.toList());
     }
 
 }
