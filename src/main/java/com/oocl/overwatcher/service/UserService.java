@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,9 +54,25 @@ public class UserService {
         return user1;
 
     }
-    public boolean updateStatus(User user) {
-        int updateNum = userRepository.updateStatusById(user.getId(),user.getStatus());
-        return updateNum!=0;
+    public void updateStatus(Long id) {
+        User user = userRepository.findById(id).get();
+        if(user.getStatus().equals("下班")||user.getStatus().equals("早退")){
+            if(ZonedDateTime.now().getHour()<0&&ZonedDateTime.now().getHour()<10){
+                userRepository.updateStatusById(id,"上班");
+            }else {
+                userRepository.updateStatusById(id,"迟到");
+            }
+        }
+        else if (user.getStatus().equals("上班")||user.getStatus().equals("迟到")){
+            if(ZonedDateTime.now().getHour()>10){
+                    userRepository.updateStatusById(id,"下班");
+            }else {
+                    userRepository.updateStatusById(id,"早退");
+            }
+        }else
+            {
+                userRepository.updateStatusById(id,user.getStatus());
+            }
     }
 
     public boolean updateAlive(User user) {
