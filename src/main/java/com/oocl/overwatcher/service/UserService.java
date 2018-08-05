@@ -1,10 +1,13 @@
 package com.oocl.overwatcher.service;
 
+import com.oocl.overwatcher.dto.EmployeeDto;
 import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.ParkingLotRepository;
 import com.oocl.overwatcher.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,9 +66,23 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public boolean updateBasicMessageOfEmployees(User user){
-        int updateNum = userRepository.updateBasicMessageOfEmployees(user.getId(),user.getName(),user.getStatus(),user.getEmail(),user.getPhone());
-        return updateNum!=0;
+    public User updateBasicMessageOfEmployees(Long id,User user){
+        System.out.println("============== id ================");
+        System.out.println(id);
+        Optional<User> finder=userRepository.findById(id);
+        if (finder.isPresent()){
+            User old=finder.get();
+            old.setName(user.getName());
+            old.setEmail(user.getEmail());
+            old.setPhone(user.getPhone());
+            old.setUserName(user.getUserName());
+            old.setRoleList(user.getRoleList());
+            userRepository.save(old);
+            return old;
+        }else {
+            return null;
+        }
+
     }
 
 

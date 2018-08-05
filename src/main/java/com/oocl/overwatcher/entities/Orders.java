@@ -36,7 +36,7 @@ public class Orders {
     private ParkingLot parkingLot;
 
     @CreatedDate
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+    private ZonedDateTime createdDate = ZonedDateTime.now().plusHours(8);
 
     public static String getType_unpark() {
         return TYPE__UNPARK;
