@@ -8,11 +8,13 @@ import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,16 +59,16 @@ public class UserController {
         return ResponseEntity.ok(userService.finAllParkingLotByEmployeeId(id));
     }
 
-    @PutMapping("/status")
-
-    public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
-        if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
-            if (userService.updateStatus(user)) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
+//    @PutMapping("/status")
+//
+//    public ResponseEntity<Void> updateUserStatus(@RequestBody User user) {
+//        if (StringUtils.isNotBlank(user.getStatus()) && StringUtils.isNotBlank(user.getId() + "")) {
+//            if (userService.updateStatus(user)) {
+//                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//            }
+//        }
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//    }
     @GetMapping("/onWork")
 
     public List<User> findAllEmployeesOnWork(){
@@ -171,5 +173,17 @@ public class UserController {
            return ResponseEntity.ok(userService.addParkingLotToPakingBoy(parkingBoyId,parkingLotIds).stream().map(parkingLot -> new ParkingLotDTO(parkingLot)).collect(Collectors.toList()));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PutMapping("/{id}")
+     public ResponseEntity<EmployeeDto> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+        System.out.println("============== id ================");
+        System.out.println(id);
+        User newer=userService.updateBasicMessageOfEmployees(id,user);
+        if (newer==null){
+            return new ResponseEntity<EmployeeDto>(HttpStatus.BAD_REQUEST);
+        }else {
+            return new ResponseEntity<EmployeeDto>(new EmployeeDto(newer),HttpStatus.OK);
+        }
     }
 }
