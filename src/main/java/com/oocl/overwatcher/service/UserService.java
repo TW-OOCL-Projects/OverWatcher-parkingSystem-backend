@@ -54,6 +54,11 @@ public class UserService {
         int updateNum = userRepository.updateStatusById(user.getId(),user.getStatus());
         return updateNum!=0;
     }
+
+    public boolean updateAlive(User user) {
+        int updateNum = userRepository.updateAliveById(user.getId(),user.getAlive());
+        return updateNum!=0;
+    }
     public Optional<User> findOne(Long id) {
         return userRepository.findById(id);
     }
@@ -112,5 +117,23 @@ public class UserService {
             sb.append(base.charAt(number));
         }
         return sb.toString();
+    }
+
+    public List<ParkingLot> changeParking(List<Long> pakingLotIds) {
+       for (Long id :pakingLotIds){
+           ParkingLot parkingLot = parkingLotRepository.findById(id).get();
+           parkingLot.setUser(null);
+           parkingLotRepository.save(parkingLot);
+       }
+        return parkingLotRepository.findAll();
+    }
+    public List<ParkingLot> addParkingLotToPakingBoy(Long pakingBoyId,List<Long> pakingLotIds) {
+        for (Long id :pakingLotIds){
+        ParkingLot parkingLot = parkingLotRepository.findById(id).get();
+        User user = userRepository.findById(pakingBoyId).get();
+        parkingLot.setUser(user);
+        parkingLotRepository.save(parkingLot);
+        }
+        return parkingLotRepository.findAll();
     }
 }
