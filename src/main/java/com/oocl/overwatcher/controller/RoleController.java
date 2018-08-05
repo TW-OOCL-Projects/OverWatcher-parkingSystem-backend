@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class RoleController {
@@ -24,6 +26,7 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/parkingBoys")
+
     public List<EmployeeDto> findAllParkingBoys() {
         List<User> parkingBoys = new ArrayList<>();
         roleService.findAllParkingBoys().forEach(role -> parkingBoys.addAll(role.getUsers()));
@@ -32,6 +35,7 @@ public class RoleController {
 
 
     @GetMapping("/parkingBoys/condition")
+
     public List<EmployeeDto> findAllParkingBoysByCondition(String condition, String value) {
         List<User> parkingBoys = new ArrayList<>();
         roleService.findAllParkingBoys().forEach(role -> parkingBoys.addAll(role.getUsers()));

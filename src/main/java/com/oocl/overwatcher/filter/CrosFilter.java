@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.filter;
 
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
  * @author LIULE9
  */
 @Component
-@Order(1)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @WebFilter(filterName = "crosFilter", urlPatterns = "/*")
 public class CrosFilter implements Filter {
     @Override
@@ -24,13 +25,13 @@ public class CrosFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-//        String origin = (String) servletRequest.getRemoteHost() + ":" + servletRequest.getRemotePort();
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+//        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+        response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization,Content-Type");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        System.out.println("=====================================================");
+        System.out.println("======================== CROS =============================");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

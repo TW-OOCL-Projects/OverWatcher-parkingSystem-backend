@@ -5,6 +5,7 @@ import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.repositories.ParkingLotRepository;
 import com.oocl.overwatcher.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,9 +40,14 @@ public class UserService {
         String randomUsername = getRandomString(3);
         String randomPassword = getRandomString(3);
         user.setUserName(randomUsername);
-        user.setPassword(randomPassword);
+        String encodePassword = new BCryptPasswordEncoder().encode(randomPassword);
+        user.setPassword(encodePassword);
         user.setStatus("上班");
-        return userRepository.save(user);
+        userRepository.save(user);
+        User user1 = new User();
+        user1.setUserName(randomUsername);
+        user1.setPassword(randomPassword);
+        return user1;
 
     }
     public boolean updateStatus(User user) {
