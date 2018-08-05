@@ -1,6 +1,8 @@
 package com.oocl.overwatcher.controller;
 
+import com.oocl.overwatcher.dto.ChangeParkingLotDTO;
 import com.oocl.overwatcher.dto.EmployeeDto;
+import com.oocl.overwatcher.dto.ParkingLotDTO;
 import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
 import com.oocl.overwatcher.service.UserService;
@@ -147,15 +149,28 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PutMapping
-
-    public ResponseEntity updateBasicMessageOfEmployees(@RequestBody User user) {
+    @PutMapping("/{id}/alive")
+    public ResponseEntity updateAliveMessageOfEmployee(@RequestBody User user) {
         if (StringUtils.isNotBlank(user.getId() + "")) {
-            if (userService.updateBasicMessageOfEmployees(user)) {
+            if (userService.updateAlive(user)) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @PutMapping("/changeParkingLotOwner")
+    public ResponseEntity<List<ParkingLotDTO>> findAllParkingBoysByCondition(@RequestBody ChangeParkingLotDTO changeParkingLotDTO) {
+        String direction = changeParkingLotDTO.getDirection();
+        List<Long> parkingLotIds = changeParkingLotDTO.getParkingLotId();
+        Long parkingBoyId = changeParkingLotDTO.getUserId();
+        if(StringUtils.isNotBlank(direction)&&"left".equals(direction)){
+            return ResponseEntity.ok(userService.changeParking(parkingLotIds).stream().map(parkingLot -> new ParkingLotDTO(parkingLot)).collect(Collectors.toList()));
+            //TODO 从停车小弟把该parkingLotId的停车场的userId改null
+        }else if(StringUtils.isNotBlank(direction)&&"right".equals(direction)){
+            //TODO 从停车小弟把该parkingLotId的停车场的userId改为参数的userId
+           return ResponseEntity.ok(userService.addParkingLotToPakingBoy(parkingBoyId,parkingLotIds).stream().map(parkingLot -> new ParkingLotDTO(parkingLot)).collect(Collectors.toList()));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 }

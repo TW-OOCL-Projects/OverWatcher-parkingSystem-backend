@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.controller;
 
+import com.oocl.overwatcher.dto.ParkingLotDTO;
 import com.oocl.overwatcher.dto.ParkingLotDetail;
 import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.service.ParkingLotService;
@@ -7,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
  * @author LIULE9
  */
 @RestController
-@RequestMapping("/parkingLots")
+    @RequestMapping("/parkingLots")
 public class ParkingLotController {
 
     @Autowired
@@ -25,8 +27,9 @@ public class ParkingLotController {
 
     @GetMapping
 
-    public ResponseEntity<List<ParkingLot>> findAll() {
-        return ResponseEntity.ok(parkingLotService.findAll());
+
+    public ResponseEntity<List<ParkingLotDTO>> findAll() {
+        return ResponseEntity.ok(parkingLotService.findAll().stream().map(parkingLot -> new ParkingLotDTO(parkingLot)).collect(Collectors.toList()));
     }
 
 
