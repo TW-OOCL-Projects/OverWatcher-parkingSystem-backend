@@ -68,7 +68,7 @@ public class LoginController {
         }
     }
 
-    @PutMapping("/logout")
+    @PutMapping("/userLogout")
     public ResponseEntity logout(Long id) {
         return ResponseEntity.ok().build();
     }
