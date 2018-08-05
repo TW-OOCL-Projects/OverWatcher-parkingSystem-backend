@@ -1,5 +1,6 @@
 package com.oocl.overwatcher.repositories;
 
+import com.oocl.overwatcher.entities.Role;
 import com.oocl.overwatcher.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,9 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     int updateAliveById(Long id, Boolean alive);
 
-    @Query(value = "update User set `name` = ?2,`status` = ?3,`email` = ?4,`phone` = ?5, where id = ?1", nativeQuery = true)
+    @Query(value = "update User set `name` = ?2,`username` = ?3,`email` = ?4,`phone` = ?5, where id = ?1", nativeQuery = true)
     @Modifying
-    int updateBasicMessageOfEmployees(Long id, String name, String status, String email, String phone);
+    int updateBasicMessageOfEmployees(Long id, String name, String username, String email, String phone, List<Role> roles);
 
     @Query(value = "select * from user where name like %?1%", nativeQuery = true)
     List<User> findEmployeeByName(String name);
