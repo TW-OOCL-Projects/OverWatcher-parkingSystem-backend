@@ -6,7 +6,7 @@ CREATE TABLE `User` (
   `status` VARCHAR(20)  ,
   `email` VARCHAR(20)  ,
   `phone` VARCHAR(20),
-  `alive` Boolean default true 
+  `alive` Boolean default true
 );
 
 -- username=wer password=war
