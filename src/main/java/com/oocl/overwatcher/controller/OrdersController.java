@@ -1,9 +1,11 @@
 package com.oocl.overwatcher.controller;
 
-import com.oocl.overwatcher.dto.OrdersDto;
+import com.oocl.overwatcher.dto.OrdersDTO;
 import com.oocl.overwatcher.entities.Orders;
 import com.oocl.overwatcher.entities.ParkingLot;
 import com.oocl.overwatcher.entities.User;
+import com.oocl.overwatcher.enums.OrderStatusEnum;
+import com.oocl.overwatcher.enums.OrderTypeEnum;
 import com.oocl.overwatcher.repositories.ParkingLotRepository;
 import com.oocl.overwatcher.repositories.UserRepository;
 import com.oocl.overwatcher.service.OrdersService;
@@ -17,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author LIULE9
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrdersController {
@@ -24,30 +29,28 @@ public class OrdersController {
     private final OrdersService ordersService;
 //    private final UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final ParkingLotRepository parkingLotRepository;
 
     @Autowired
-    private ParkingLotRepository parkingLotRepository;
-
-    @Autowired
-    public OrdersController(OrdersService ordersService) {
+    public OrdersController(OrdersService ordersService, UserRepository userRepository, ParkingLotRepository parkingLotRepository) {
         this.ordersService = ordersService;
 //        this.userService=userService;
+        this.userRepository = userRepository;
+        this.parkingLotRepository = parkingLotRepository;
     }
 
     //查询所有订单
     @GetMapping
-
     public HttpEntity<List<Orders>> getOrders() {
         return new ResponseEntity<>(ordersService.getOrders(), HttpStatus.OK);
     }
 
     //查询所有抢单后的订单
     @GetMapping("/after/{boyId}")
-
-    public HttpEntity<List<OrdersDto>> findAfterOreder(@PathVariable int boyId) {
-        return new ResponseEntity<>(ordersService.findAfterOreder(boyId).stream().map(x->new OrdersDto(x)).collect(Collectors.toList()), HttpStatus.OK);
+    public HttpEntity<List<OrdersDTO>> findAfterOreder(@PathVariable int boyId) {
+        return new ResponseEntity<>(ordersService.findAfterOreder(boyId).stream().map(x->new OrdersDTO(x)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     //根据ID查询订单
@@ -115,57 +118,57 @@ public class OrdersController {
     //停车：指定停车员给订单
     @PutMapping("/{OrderId}/parkingBoy/{BoyId}")
 
-    public OrdersDto setUsersToOrders(@PathVariable int OrderId, @PathVariable Long BoyId) {
+    public OrdersDTO setUsersToOrders(@PathVariable int OrderId, @PathVariable Long BoyId) {
         User boy = userRepository.findById(BoyId).get();
         List<ParkingLot> parkingLots = boy.getParkingLotList();
         Orders orders=ordersService.findById(OrderId).get();
         orders.setUser(boy);
         if (parkingLots.stream().filter(x -> x.getSize() != 0).collect(Collectors.toList()).size() != 0) {
             ordersService.updateUserIdById(OrderId, BoyId);
-            ordersService.updateStatusById(OrderId, Orders.STATUS_YES);
+            ordersService.updateStatusById(OrderId, OrderStatusEnum.YES.getMessage());
         }
-        return new OrdersDto(orders);
+        return new OrdersDTO(orders);
     }
 
     //停车：指定停车场给订单
     @PutMapping("/{OrderId}/parkingLot/{ParkingLotId}")
 
-    public OrdersDto setParkingLotToOrders(@PathVariable int OrderId, @PathVariable Long ParkingLotId) {
+    public OrdersDTO setParkingLotToOrders(@PathVariable int OrderId, @PathVariable Long ParkingLotId) {
         ordersService.updateParkingLotIdById(OrderId, ParkingLotId);
         int size = parkingLotRepository.findById(ParkingLotId).get().getSize() - 1;
         parkingLotRepository.updateSizeById(ParkingLotId, size);
-        ordersService.updateStatusById(OrderId, Orders.STATUS_PARK_DONE);
-        return new OrdersDto(ordersService.findById(OrderId).get());
+        ordersService.updateStatusById(OrderId, OrderStatusEnum.PARK_DONE.getMessage());
+        return new OrdersDTO(ordersService.findById(OrderId).get());
     }
 
     //用户取车，订单变为取车
 
     @PostMapping("/userUnParkCarId")
-    public OrdersDto addUnParkOrders(String userUnParkCarId) {
+    public OrdersDTO addUnParkOrders(String userUnParkCarId) {
         if (ordersService.existCarid(userUnParkCarId)) {
             Orders orders = ordersService.findByCarId(userUnParkCarId);
-            orders.setType(Orders.TYPE__UNPARK);
+            orders.setOrderType(OrderTypeEnum.UNPARK.getMessage());
             //if(ordersService.findByCarId(carId)生病)另一种status
-            orders.setStatus(Orders.STATUS_YES);
+            orders.setOrderStatus(OrderStatusEnum.YES.getMessage());
             ordersService.addOrders(orders);
         }
         Orders orders = ordersService.findByCarId(userUnParkCarId);
-        return new OrdersDto(orders);
+        return new OrdersDTO(orders);
     }
 
     //停车员取车
     @PutMapping("/boyUnParkCarId")
 
-    public OrdersDto unPark(String boyUnParkCarId) {
+    public OrdersDTO unPark(String boyUnParkCarId) {
         Orders orders = ordersService.findByCarId(boyUnParkCarId);
-        ParkingLot parkingLot = parkingLotRepository.findById(ordersService.getParkingLotId(orders.getId())).get();
+        ParkingLot parkingLot = parkingLotRepository.findById(ordersService.getParkingLotId(orders.getOrderId())).get();
         Long parkingLotId = parkingLot.getId();
         int size = parkingLotRepository.findById(parkingLotId).get().getSize() + 1;
         parkingLotRepository.updateSizeById(parkingLotId, size);
-        ordersService.updateStatusById(orders.getId(), Orders.STATUS_UNPARK_DONE);
-        orders.setStatus(Orders.STATUS_UNPARK_DONE);
+        ordersService.updateStatusById(orders.getOrderId(), OrderStatusEnum.UNPARK_DONE.getMessage());
+        orders.setOrderStatus(OrderStatusEnum.UNPARK_DONE.getMessage());
         orders.setParkingLot(parkingLot);
-        return new OrdersDto(orders);
+        return new OrdersDTO(orders);
     }
 
     //根据订单ID查看停车场ID

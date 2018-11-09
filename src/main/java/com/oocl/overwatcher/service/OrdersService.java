@@ -1,6 +1,7 @@
 package com.oocl.overwatcher.service;
 
 import com.oocl.overwatcher.entities.Orders;
+import com.oocl.overwatcher.enums.OrderStatusEnum;
 import com.oocl.overwatcher.repositories.OrdersRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class OrdersService {
     }
 
     public boolean existCarid(String carId) {
-        return ordersRepository.findBycarId(carId) != null && !ordersRepository.findBycarId(carId).getStatus().equals(Orders.STATUS_UNPARK_DONE);
+        return ordersRepository.findBycarId(carId) != null && !ordersRepository.findBycarId(carId).getOrderStatus().equals(OrderStatusEnum.UNPARK_DONE.getMessage());
     }
 
     public Long getParkingLotId(int id) {

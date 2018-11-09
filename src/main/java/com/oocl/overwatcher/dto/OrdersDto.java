@@ -1,85 +1,30 @@
 package com.oocl.overwatcher.dto;
 
 import com.oocl.overwatcher.entities.Orders;
+import lombok.Data;
 
 import java.time.ZonedDateTime;
 
-public class OrdersDto {
-    int id;
-    private String type;
-    private String status;
-    private String carId;
-    private String name;
-    private Long usersId;
-    private ZonedDateTime time;
+/**
+ * @author LIULE9
+ */
+@Data
+public class OrdersDTO {
+  private Integer orderId;
+  private String orderType;
+  private String orderStatus;
+  private String carId;
+  private String name;
+  private Long usersId;
+  private ZonedDateTime time;
 
-    public Long getUsersId() {
-        return usersId;
-    }
-
-    public void setUsersId(Long usersId) {
-        this.usersId = usersId;
-    }
-
-    public ZonedDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(ZonedDateTime time) {
-        this.time = time;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCarId() {
-        return carId;
-    }
-
-    public void setCarId(String carId) {
-        this.carId = carId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public OrdersDto(Orders orders) {
-        this.id = orders.getId();
-        this.type = orders.getType();
-        this.status = orders.getStatus();
-        this.carId=orders.getCarId();
-        if(orders.getParkingLot()==null){
-            this.name=null;
-        }else{
-            this.name=orders.getParkingLot().getName();
-        }
-        this.time=orders.getCreatedDate();
-        this.usersId=orders.getUser().getId();
-    }
+  public OrdersDTO(Orders orders) {
+    this.orderId = orders.getOrderId();
+    this.orderType = orders.getOrderType();
+    this.orderStatus = orders.getOrderStatus();
+    this.carId = orders.getCarId();
+    this.time = orders.getCreatedDate();
+    this.name = orders.getParkingLot() != null ? orders.getParkingLot().getName() : null;
+    this.usersId = orders.getUser().getId();
+  }
 }
